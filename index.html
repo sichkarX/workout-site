@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="googlebot" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Тренировки">
+<meta name="theme-color" content="#000000">
 <title>Тренировки — Сергей</title>
 <style>
   :root{
@@ -22,7 +27,7 @@
   html,body{margin:0; background:var(--bg); color:var(--tx);
     font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased}
   input{font-family:inherit}
-  .wrap{max-width:500px; margin:0 auto; padding:20px 16px 120px}
+  .wrap{max-width:500px; margin:0 auto; padding:calc(20px + env(safe-area-inset-top)) 16px 120px}
   .hidden{display:none}
 
   h1{font-size:32px; font-weight:800; margin:0; letter-spacing:-.03em}
