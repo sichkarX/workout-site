@@ -49,11 +49,38 @@
   .dotbig{width:12px; height:12px; border-radius:50%; background:#3a3a42; display:inline-block; flex:0 0 auto}
   .dotbig.on{background:var(--green)}
   .hdots{display:flex; gap:7px; margin:14px 0 11px}
-  .dot{flex:1; display:flex; flex-direction:column; align-items:center; gap:6px}
-  .dot::before{content:""; display:block; width:28px; height:28px; border-radius:50%; background:#24242a; border:1px solid var(--line)}
-  .dot.on::before{background:var(--green); border-color:var(--green)}
-  .dot.today::before{box-shadow:0 0 0 2px var(--accent)}
-  .dot span{font-size:10.5px; color:var(--tx3); font-weight:700}
+  .dcell{flex:1; display:flex; flex-direction:column; align-items:center; gap:6px}
+  .dcirc{width:32px; height:32px; border-radius:50%; background:#24242a; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; font-size:15px; line-height:1; overflow:hidden}
+  .dcell.on .dcirc{background:rgba(48,209,88,.15); border-color:var(--green)}
+  .dcell.today .dcirc{box-shadow:0 0 0 2px var(--accent)}
+  .dcell .dlbl{font-size:10.5px; color:var(--tx3); font-weight:700}
+  .scard .sicon{position:relative; flex:0 0 auto; width:48px; height:48px; border-radius:14px; background:rgba(191,90,242,.16);
+    border:1px solid rgba(191,90,242,.30); color:#c9a7ff; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:visible}
+  .scard .sicon:active{background:rgba(191,90,242,.30)}
+  .scard .sicon svg{width:27px; height:27px}
+  .pbadge{position:absolute; right:-5px; bottom:-5px; width:19px; height:19px; border-radius:50%;
+    background:var(--gm); color:#fff; font-size:8px; display:flex; align-items:center; justify-content:center;
+    border:2px solid var(--card); padding-left:1px}
+  .scard .st{cursor:pointer}
+  .snum{font-size:16px; font-weight:800; margin-right:1px}
+  .dic{display:inline-flex; color:#c9a7ff}
+  .dcell.on .dic{color:var(--green)}
+  .dic svg{width:16px; height:16px}
+  .hmeta{display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:var(--tx2)}
+  .streak{display:inline-flex; align-items:center; gap:5px; font-weight:700; color:var(--tx3)}
+  .streak.on{color:var(--amber); background:rgba(255,159,10,.15); border:1px solid rgba(255,159,10,.34); padding:5px 11px; border-radius:20px}
+  .streak svg{width:16px; height:16px}
+  .sfbwrap{margin:-6px 0 12px; padding:0 2px}
+  .sfbtoggle{background:none; border:none; color:var(--accent); font-family:inherit; font-size:12.5px; font-weight:600; padding:4px 2px; cursor:pointer}
+  .sfbbox{display:flex; gap:8px; margin-top:7px}
+  .sfbta{flex:1; box-sizing:border-box; background:#141414; border:1px solid #262626; border-radius:11px; color:var(--tx);
+    font-family:inherit; font-size:14px; padding:10px 12px; resize:none; line-height:1.4}
+  .sfbta:focus{outline:none; border-color:#3a3a3a}
+  .sfbta::placeholder{color:#555}
+  .sfbsave{flex:0 0 auto; background:rgba(255,255,255,.07); border:1px solid var(--line); color:var(--tx);
+    border-radius:11px; padding:0 15px; font-family:inherit; font-size:13px; font-weight:700; cursor:pointer}
+  .sfbsave:active{background:var(--green); color:#052; border-color:var(--green)}
   .quote{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:15px 17px; margin:0 0 20px}
   .qtx{font-size:14.5px; line-height:1.55; color:var(--tx)}
   .qauth{font-size:12.5px; color:#9a9aff; margin-top:10px; font-weight:600}
@@ -199,7 +226,7 @@
     <div class="stats" id="tabstats"></div>
     <div id="cap" class="cap"></div>
     <div id="days"></div>
-    <div class="brandfoot"><div class="verline">Тренировки · v1.2 · релиз 16 июля 2026</div></div>
+    <div class="brandfoot"><div class="verline">Тренировки · v1.3 · релиз 17 июля 2026</div></div>
   </section>
 
   <section id="workout" class="hidden">
@@ -313,10 +340,13 @@ const REHA=[
      cues:["ok:На выдохе тянись вперёд, колени постепенно выпрямляй","ok:Боль под коленом/в пояснице — это растяжение, норма"]})]},
 ];
 const STRETCH=[
- {name:"Растяжка всего тела",sub:"~15 мин · ноги и спина",vid:"O6Vm6vKFbvA"},
- {name:"Утренняя гимнастика для спины",sub:"~15 мин · спина",vid:"WbxkKxXSZe0"},
- {name:"Растяжка на каждый день",sub:"~15 мин · позвоночник · neofit",vid:"D3Ysvoz7I2E",start:51}
+ {sym:"🤸",ic:'<svg viewBox="0 0 24 24"><circle cx="12" cy="4.8" r="2.7" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V13.8"/><path d="M12 9.4 6.7 6.7"/><path d="M12 9.4l5.3-2.7"/><path d="M12 13.8 8 20"/><path d="M12 13.8 16 20"/></g></svg>',name:"Растяжка всего тела",sub:"~15 мин · ноги и спина",vid:"O6Vm6vKFbvA"},
+ {sym:"🌅",ic:'<svg viewBox="0 0 24 24"><path d="M7.4 18a4.6 4.6 0 0 1 9.2 0z" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M3.6 18h16.8"/><path d="M12 6.2V4.2"/><path d="M5.8 8.6 4.5 7.3"/><path d="M18.2 8.6l1.3-1.3"/></g></svg>',name:"Утренняя гимнастика для спины",sub:"~15 мин · спина",vid:"WbxkKxXSZe0"},
+ {sym:"🔄",ic:'<svg viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2-4.9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.4 2.6l1.9 4.7-4.9-1.1z" fill="currentColor"/></svg>',name:"Растяжка на каждый день",sub:"~15 мин · позвоночник · neofit",vid:"D3Ysvoz7I2E",start:51},
+ {sym:"🦴",ic:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="8" y="3.2" width="8" height="3" rx="1.5"/><rect x="8" y="7.2" width="8" height="3" rx="1.5"/><rect x="8" y="11.2" width="8" height="3" rx="1.5"/><rect x="8" y="15.2" width="8" height="3" rx="1.5"/><rect x="8" y="19.2" width="8" height="2.4" rx="1.2"/></svg>',name:"Зарядка для здоровой спины",sub:"спина · зарядка",vid:"HguGH_LP5Zc"},
+ {sym:"🧍",ic:'<svg viewBox="0 0 24 24"><circle cx="10.5" cy="4.8" r="2.4" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 7.4v5.6"/><path d="M7.8 9.6h5.4"/><path d="M10.5 13 8.6 20"/><path d="M10.5 13l1.9 7"/></g><path d="M16.5 3.4v17.2" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.5 2.5" opacity="0.5" fill="none"/></svg>',name:"Комплекс для здоровой осанки",sub:"осанка",vid:"vb5KPk3P1Cg"}
 ];
+const FLAME_SVG='<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2.5c2.6 2.8 4.2 4.8 4.2 8.3a4.2 4.2 0 0 1-8.4 0c0-1.6.8-2.9 1.9-3.9-.1 1.4.6 2.1 1.6 2.3-1.1-2-.3-4.4.7-6.8z"/></svg>';
 
 const SK="wlog_v1";
 function store(){try{return JSON.parse(localStorage.getItem(SK))||{last:{},sessions:[]}}catch(e){return{last:{},sessions:[]}}}
@@ -324,6 +354,7 @@ function saveStore(s){localStorage.setItem(SK,JSON.stringify(s))}
 function wId(w){return w.tag+"|"+w.name}
 function exKey(w,e){return wId(w)+"::"+e.name}
 function dayKey(ts){const d=new Date(ts);return d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate();}
+function plurDay(n){const a=Math.abs(n)%100,b=n%10; if(a>10&&a<20)return"дней"; if(b>1&&b<5)return"дня"; if(b===1)return"день"; return"дней";}
 function listFor(t){return t==="zal"?ZAL:REHA}
 
 let TAB="morn";
@@ -348,36 +379,50 @@ function renderDays(){
 }
 function renderStretch(){
   const s=store();
-  const set=new Set((s.sessions||[]).filter(x=>x.prog==="morn").map(x=>dayKey(x.ts)));
+  const morn=(s.sessions||[]).filter(x=>x.prog==="morn");
+  const set=new Set(morn.map(x=>dayKey(x.ts)));
   const now=new Date(), todayK=dayKey(now.getTime());
   const dow=(now.getDay()+6)%7, monday=new Date(now); monday.setDate(now.getDate()-dow); monday.setHours(0,0,0,0);
   const L=["Пн","Вт","Ср","Чт","Пт","Сб","Вс"];
   let doneWeek=0,dots="";
   for(let i=0;i<7;i++){const dd=new Date(monday); dd.setDate(monday.getDate()+i); const k=dayKey(dd.getTime());
-    const done=set.has(k); if(done)doneWeek++; dots+=`<div class="dot ${done?'on':''} ${k===todayK?'today':''}"><span>${L[i]}</span></div>`;}
+    const dayS=[...new Set(morn.filter(x=>dayKey(x.ts)===k).map(x=>x.sidx))];
+    const syms=dayS.map(si=>STRETCH[si]?`<span class="dic">${STRETCH[si].ic}</span>`:"").join("");
+    const done=dayS.length>0; if(done)doneWeek++;
+    dots+=`<div class="dcell ${done?'on':''} ${k===todayK?'today':''}"><div class="dcirc">${syms}</div><span class="dlbl">${L[i]}</span></div>`;}
   let streak=0; const cur=new Date(now); cur.setHours(0,0,0,0);
   if(!set.has(dayKey(cur.getTime()))) cur.setDate(cur.getDate()-1);
   while(set.has(dayKey(cur.getTime()))){streak++; cur.setDate(cur.getDate()-1);}
-  const todaySet=new Set((s.sessions||[]).filter(x=>x.prog==="morn"&&dayKey(x.ts)===todayK).map(x=>x.sidx));
+  const todaySet=new Set(morn.filter(x=>dayKey(x.ts)===todayK).map(x=>x.sidx));
   const todayDone=todaySet.size>0;
   document.getElementById("cap").textContent="";
   const habit=`<div class="habit">
     <div class="hstatus"><span class="dotbig ${todayDone?'on':''}"></span>${todayDone?"Сегодня размялся — красава":"Сегодня ещё не размялся"}</div>
     <div class="hdots">${dots}</div>
-    <div class="hmeta">За неделю: <b>${doneWeek}</b> из 6 · подряд <b>${streak}</b> дн.</div></div>`;
-  const cards=STRETCH.map((x,i)=>{const cd=todaySet.has(i);return `<div class="scard">
-    <button class="splay" onclick="openVideo('${x.vid}'${x.start?","+x.start:""})">▶</button>
-    <div class="sinfo"><div class="st">${x.name}</div><div class="ss">${x.sub}</div></div>
+    <div class="hmeta"><span>За неделю: <b>${doneWeek}</b> из 7</span><span class="streak ${streak>0?'on':''}">${FLAME_SVG}${streak>0?`<b class="snum">${streak}</b> ${plurDay(streak)}`:"начни серию"}</span></div></div>`;
+  const cards=STRETCH.map((x,i)=>{const cd=todaySet.has(i); const ov=`openVideo('${x.vid}'${x.start?","+x.start:""})`; return `<div class="scard" id="sc${i}">
+    <button class="sicon" onclick="${ov}">${x.ic}<span class="pbadge">▶</span></button>
+    <div class="sinfo"><div class="st" onclick="${ov}">${x.name}</div><div class="ss">${x.sub}</div></div>
     <button class="sdone ${cd?'ok':''}" onclick="markStretch(${i})">${cd?'✓':'Сделал'}</button>
-  </div>`;}).join("");
+  </div>${cd?`<div class="sfbwrap"><button class="sfbtoggle" onclick="toggleFb(${i})">＋ записать ощущения</button>
+    <div class="sfbbox hidden" id="fbbox${i}"><textarea class="sfbta" id="fbta${i}" rows="2" placeholder="Что подошло, что нет, где легко / тяжело…"></textarea><button class="sfbsave" onclick="saveStretchFb(${i})">Сохранить</button></div></div>`:""}`;}).join("");
   document.getElementById("days").innerHTML=habit+cards;
 }
 function markStretch(i){
   const s=store();s.sessions=s.sessions||[];
-  s.sessions.push({ts:Date.now(),prog:"morn",sidx:i,title:STRETCH[i].name,date:new Date().toLocaleDateString("ru-RU")});
+  const now=new Date();
+  s.sessions.push({ts:now.getTime(),prog:"morn",sidx:i,title:STRETCH[i].name,date:now.toLocaleDateString("ru-RU")});
   saveStore(s);
-  syncToSheet("morn",[[new Date().toLocaleDateString("ru-RU"),new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}),STRETCH[i].name]]);
+  syncToSheet("morn",[[now.toLocaleDateString("ru-RU"),now.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}),STRETCH[i].sym,STRETCH[i].name,""]]);
   renderStretch();
+}
+function toggleFb(i){const b=document.getElementById("fbbox"+i); if(b)b.classList.toggle("hidden");}
+function saveStretchFb(i){const ta=document.getElementById("fbta"+i); const t=ta?ta.value.trim():""; if(!t){toggleFb(i);return;}
+  const now=new Date();
+  syncRaw({prog:"morn",fb:true,date:now.toLocaleDateString("ru-RU"),time:now.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}),sym:STRETCH[i].sym,name:STRETCH[i].name,text:t});
+  const s=store(); s.fb=s.fb||[]; s.fb.push({ts:now.getTime(),sidx:i,name:STRETCH[i].name,text:t}); saveStore(s);
+  const b=document.getElementById("fbbox"+i); if(b)b.classList.add("hidden");
+  const tg=document.querySelector('#sc'+i+' + .sfbwrap .sfbtoggle'); if(tg)tg.textContent="✓ ощущения записаны";
 }
 function classifyProg(x){if(x.prog)return x.prog; if(x.tag==="Реабилитация")return "reha"; if(x.tag==="Утро")return "morn"; return "zal";}
 function renderStats(tab){
@@ -507,6 +552,8 @@ function openDoc(id){window.open(DOC+id,"_blank","noopener");}
 const SYNC_URL="https://script.google.com/macros/s/AKfycbzmsV0ooQfrVEXhqUL8eqxrzKWUyhEj2x1Kn0DJ0xr0fZxlEQIR4vthR9Ku9kWB_MF_ZQ/exec", SYNC_TOKEN="kmg-sergey-7f3a";
 function syncToSheet(prog,rows){ if(!SYNC_URL||!rows||!rows.length) return;
   try{fetch(SYNC_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({token:SYNC_TOKEN,prog:prog,rows:rows})});}catch(e){} }
+function syncRaw(payload){ if(!SYNC_URL) return;
+  try{fetch(SYNC_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({token:SYNC_TOKEN},payload))});}catch(e){} }
 const MUSIC_URL="https://www.youtube.com/playlist?list=PLqGx0GBMpnp_dJ05nONvRwnDDLFUuYSGE";
 function openMusic(){ if(MUSIC_URL){window.open(MUSIC_URL,"_blank","noopener");} else {alert("Плейлист ещё не подключён. Пришли ссылку на плейлист — впишу, и кнопка будет открывать твою музыку.");} }
 function collectSets(){let totalVol=0;const collected={};
