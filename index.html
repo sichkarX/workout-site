@@ -226,7 +226,7 @@
     <div class="stats" id="tabstats"></div>
     <div id="cap" class="cap"></div>
     <div id="days"></div>
-    <div class="brandfoot"><div class="verline">Тренировки · v1.3.1 · релиз 17 июля 2026</div></div>
+    <div class="brandfoot"><div class="verline">Тренировки · v1.3.2 · релиз 17 июля 2026</div></div>
   </section>
 
   <section id="workout" class="hidden">
@@ -405,27 +405,29 @@ function renderStretch(){
     <div class="sinfo"><div class="st" onclick="${ov}">${x.name}</div><div class="ss">${x.sub}</div></div>
     <button class="sdone ${cd?'ok':''}" onclick="markStretch(${i})">${cd?'✓':'Сделал'}</button>
   </div>${cd?`<div class="sfbwrap"><button class="sfbtoggle" onclick="toggleFb(${i})">＋ записать ощущения</button>
-    <div class="sfbbox hidden" id="fbbox${i}"><textarea class="sfbta" id="fbta${i}" rows="2" placeholder="Что подошло, что нет, где легко / тяжело…"></textarea><button class="sfbsave" onclick="saveStretchFb(${i})" ontouchend="event.preventDefault();saveStretchFb(${i})">Сохранить</button></div></div>`:""}`;}).join("");
+    <div class="sfbbox hidden" id="fbbox${i}"><textarea class="sfbta" id="fbta${i}" rows="2" placeholder="Что подошло, что нет, где легко / тяжело…"></textarea><button class="sfbsave" onclick="saveStretchFb(${i},event)" ontouchend="saveStretchFb(${i},event)">Сохранить</button></div></div>`:""}`;}).join("");
   document.getElementById("days").innerHTML=habit+cards;
 }
 function markStretch(i){
   const s=store();s.sessions=s.sessions||[];
-  const now=new Date();
+  const now=new Date(), tk=dayKey(now.getTime());
+  if(s.sessions.some(x=>x.prog==="morn"&&x.sidx===i&&dayKey(x.ts)===tk)){renderStretch();return;}
   s.sessions.push({ts:now.getTime(),prog:"morn",sidx:i,title:STRETCH[i].name,date:now.toLocaleDateString("ru-RU")});
   saveStore(s);
-  syncToSheet("morn",[[now.toLocaleDateString("ru-RU"),now.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}),STRETCH[i].sym,STRETCH[i].name,""]]);
+  syncToSheet("morn",[[now.toLocaleDateString("ru-RU"),now.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}),STRETCH[i].name,""]]);
   renderStretch();
 }
 function toggleFb(i){const b=document.getElementById("fbbox"+i); if(b)b.classList.toggle("hidden");}
-function saveStretchFb(i){const ta=document.getElementById("fbta"+i); const t=ta?ta.value.trim():""; if(!t){toggleFb(i);return;}
-  if(ta.dataset.saved==="1")return;
+function saveStretchFb(i,ev){ if(ev&&ev.preventDefault)ev.preventDefault();
+  const ta=document.getElementById("fbta"+i); const t=ta?ta.value.trim():""; if(!t){toggleFb(i);return;}
+  const nowMs=Date.now(); if(ta.dataset.last&&nowMs-(+ta.dataset.last)<2000)return; ta.dataset.last=nowMs;
   const now=new Date();
-  syncRaw({prog:"morn",fb:true,date:now.toLocaleDateString("ru-RU"),time:now.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}),sym:STRETCH[i].sym,name:STRETCH[i].name,text:t});
+  syncRaw({prog:"morn",fb:true,date:now.toLocaleDateString("ru-RU"),time:now.toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}),name:STRETCH[i].name,text:t});
   const s=store(); s.fb=s.fb||[]; s.fb.push({ts:now.getTime(),sidx:i,name:STRETCH[i].name,text:t}); saveStore(s);
-  ta.dataset.saved="1"; if(ta)ta.blur();
+  if(ta)ta.blur();
   const btn=document.querySelector('#fbbox'+i+' .sfbsave'); if(btn){btn.textContent="Сохранено ✓"; btn.style.background="var(--green)"; btn.style.color="#052"; btn.style.borderColor="var(--green)";}
   setTimeout(function(){const b=document.getElementById("fbbox"+i); if(b)b.classList.add("hidden");
-    const tg=document.querySelector('#sc'+i+' + .sfbwrap .sfbtoggle'); if(tg)tg.textContent="✓ ощущения записаны";}, 1000);
+    const tg=document.querySelector('#sc'+i+' + .sfbwrap .sfbtoggle'); if(tg)tg.textContent="✓ ощущения записаны";}, 650);
 }
 function classifyProg(x){if(x.prog)return x.prog; if(x.tag==="Реабилитация")return "reha"; if(x.tag==="Утро")return "morn"; return "zal";}
 function renderStats(tab){
