@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="googlebot" content="noindex, nofollow">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -24,7 +27,7 @@
     --gm:linear-gradient(135deg,#bf5af2,#7a7cff);
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
-  html,body{margin:0; background:var(--bg); color:var(--tx);
+  html,body{margin:0; background:var(--bg); color:var(--tx); overflow-x:hidden; max-width:100%;
     font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased}
   input{font-family:inherit}
   .wrap{max-width:500px; margin:0 auto; padding:calc(20px + env(safe-area-inset-top)) 16px 40px}
@@ -74,6 +77,7 @@
   .sfbwrap{margin:-6px 0 12px; padding:0 2px}
   .sfbtoggle{background:none; border:none; color:var(--accent); font-family:inherit; font-size:12.5px; font-weight:600; padding:4px 2px; cursor:pointer}
   .sfbbox{display:flex; gap:8px; margin-top:7px}
+  .sfbbox.hidden{display:none}
   .sfbta{flex:1; box-sizing:border-box; background:#141414; border:1px solid #262626; border-radius:11px; color:var(--tx);
     font-family:inherit; font-size:14px; padding:10px 12px; resize:none; line-height:1.4}
   .sfbta:focus{outline:none; border-color:#3a3a3a}
@@ -159,12 +163,15 @@
     border:none; border-radius:9px; padding:8px 13px; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit}
   .cues .vbtn.off{background:transparent;color:var(--tx3);border:1px solid var(--line);cursor:default}
 
-  table.sets{width:100%; border-collapse:collapse; margin-top:12px}
+  table.sets{width:100%; table-layout:fixed; border-collapse:collapse; margin-top:12px}
   table.sets th{font-size:10px; color:var(--tx3); font-weight:700; text-transform:uppercase; text-align:center; padding:0 2px 7px}
   table.sets th.l{text-align:left}
+  table.sets th:first-child{width:24px}
+  table.sets th.l{width:54px}
+  table.sets th:last-child{width:40px}
   table.sets td{padding:3px 2px; text-align:center; vertical-align:middle}
   .setno{width:24px; color:var(--tx); font-weight:800; font-size:16px}
-  .prevc{font-size:12px; color:var(--tx2); white-space:nowrap; min-width:46px}
+  .prevc{font-size:12px; color:var(--tx2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .prevc b{color:var(--green); font-weight:700}
   .sinp{width:100%; background:var(--card2); border:1px solid var(--line); color:var(--tx); border-radius:9px;
     padding:10px 4px; font-size:16px; font-weight:600; text-align:center; outline:none}
@@ -226,7 +233,7 @@
     <div class="stats" id="tabstats"></div>
     <div id="cap" class="cap"></div>
     <div id="days"></div>
-    <div class="brandfoot"><div class="verline">Тренировки · v1.3.2 · релиз 17 июля 2026</div></div>
+    <div class="brandfoot"><div class="verline">Тренировки · v1.3.3 · релиз 17 июля 2026</div></div>
   </section>
 
   <section id="workout" class="hidden">
@@ -387,7 +394,8 @@ function renderStretch(){
   let doneWeek=0,dots="";
   for(let i=0;i<7;i++){const dd=new Date(monday); dd.setDate(monday.getDate()+i); const k=dayKey(dd.getTime());
     const dayS=[...new Set(morn.filter(x=>dayKey(x.ts)===k).map(x=>x.sidx))];
-    const syms=dayS.map(si=>STRETCH[si]?`<span class="dic">${STRETCH[si].ic}</span>`:"").join("");
+    const lastSid=dayS.length?dayS[dayS.length-1]:-1;
+    const syms=(lastSid>=0&&STRETCH[lastSid])?`<span class="dic">${STRETCH[lastSid].ic}</span>`:"";
     const done=dayS.length>0; if(done)doneWeek++;
     dots+=`<div class="dcell ${done?'on':''} ${k===todayK?'today':''}"><div class="dcirc">${syms}</div><span class="dlbl">${L[i]}</span></div>`;}
   let streak=0; const cur=new Date(now); cur.setHours(0,0,0,0);
