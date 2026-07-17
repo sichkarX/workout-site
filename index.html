@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Тренировки — Сергей</title>
+<style>
+  :root{
+    --bg:#000; --card:#141416; --card2:#1c1c1f; --line:#2b2b30;
+    --tx:#f5f5f7; --tx2:#98989f; --tx3:#6a6a72;
+    --green:#30d158; --amber:#ff9f0a; --accent:#0a84ff; --red:#ff453a;
+    --g1:linear-gradient(135deg,#ff6a88,#ff2d55);
+    --g2:linear-gradient(135deg,#7a7cff,#4038d8);
+    --g3:linear-gradient(135deg,#4fd1e8,#0a84ff);
+    --g4:linear-gradient(135deg,#ffb23e,#ff7a3d);
+    --gb:linear-gradient(135deg,#34d97b,#17b7a6);
+    --gm:linear-gradient(135deg,#bf5af2,#7a7cff);
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{margin:0; background:var(--bg); color:var(--tx);
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif; -webkit-font-smoothing:antialiased}
+  input{font-family:inherit}
+  .wrap{max-width:500px; margin:0 auto; padding:20px 16px 120px}
+  .hidden{display:none}
+
+  h1{font-size:32px; font-weight:800; margin:0; letter-spacing:-.03em}
+  .hrow{display:flex; align-items:center; justify-content:space-between; gap:12px; margin:4px 0 16px}
+  .datebadge{font-size:13px; font-weight:700; color:#cdd0ff; background:rgba(122,124,255,.18);
+    border:1px solid rgba(122,124,255,.35); padding:7px 13px; border-radius:12px; white-space:nowrap}
+  .scard{display:flex; align-items:center; gap:13px; background:var(--card); border:1px solid var(--line);
+    border-radius:18px; padding:14px 16px; margin-bottom:12px}
+  .scard .splay{flex:0 0 auto; width:48px; height:48px; border-radius:50%; background:var(--gm); color:#fff;
+    border:none; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center}
+  .scard .sinfo{flex:1; min-width:0}
+  .scard .st{font-size:15px; font-weight:700; letter-spacing:-.01em}
+  .scard .ss{font-size:12.5px; color:var(--tx2); margin-top:3px}
+  .scard .sdone{flex:0 0 auto; background:rgba(255,255,255,.07); border:1px solid var(--line); color:var(--tx);
+    border-radius:11px; padding:10px 14px; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit}
+  .scard .sdone:active,.scard .sdone.ok{background:var(--green); color:#052; border-color:var(--green)}
+  .habit{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:15px 16px; margin-bottom:14px}
+  .hstatus{font-size:15px; font-weight:700; display:flex; align-items:center; gap:9px}
+  .dotbig{width:12px; height:12px; border-radius:50%; background:#3a3a42; display:inline-block; flex:0 0 auto}
+  .dotbig.on{background:var(--green)}
+  .hdots{display:flex; gap:7px; margin:14px 0 11px}
+  .dot{flex:1; display:flex; flex-direction:column; align-items:center; gap:6px}
+  .dot::before{content:""; display:block; width:28px; height:28px; border-radius:50%; background:#24242a; border:1px solid var(--line)}
+  .dot.on::before{background:var(--green); border-color:var(--green)}
+  .dot.today::before{box-shadow:0 0 0 2px var(--accent)}
+  .dot span{font-size:10.5px; color:var(--tx3); font-weight:700}
+  .quote{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:15px 17px; margin:0 0 20px}
+  .qtx{font-size:14.5px; line-height:1.55; color:var(--tx)}
+  .qauth{font-size:12.5px; color:#9a9aff; margin-top:10px; font-weight:600}
+  .stats{display:flex; gap:10px; margin-bottom:22px}
+  .stat{flex:1; background:linear-gradient(160deg,#191920,#121216); border:1px solid var(--line); border-radius:16px; padding:14px 15px}
+  .stat .v{font-size:30px; font-weight:800; letter-spacing:-.03em; line-height:1}
+  .stat .l{font-size:11px; color:var(--tx2); margin-top:5px}
+
+  .seg{display:flex; background:var(--card2); border-radius:13px; padding:4px; margin-bottom:16px; gap:2px}
+  .seg button{flex:1; border:none; background:transparent; color:var(--tx2); font-family:inherit;
+    font-size:13.5px; font-weight:600; padding:10px 4px; border-radius:10px; cursor:pointer; transition:.15s}
+  .seg button.on{background:#34343a; color:#fff}
+  .cap{font-size:12.5px; color:var(--tx3); margin:0 2px 14px; font-weight:500}
+
+  .daycard{display:flex; align-items:center; justify-content:space-between; gap:14px; border-radius:22px;
+    padding:20px 22px; margin-bottom:13px; cursor:pointer; color:#fff; border:none; width:100%; text-align:left;
+    font-family:inherit; transition:transform .12s, filter .12s}
+  .daycard:active{transform:scale(.985); filter:brightness(1.06)}
+  .daycard .info{min-width:0}
+  .daycard .tag{display:block; font-size:11px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; opacity:.82}
+  .daycard .t{display:block; font-size:22px; font-weight:800; letter-spacing:-.02em; margin-top:5px; line-height:1.1}
+  .daycard .n{flex:0 0 auto; width:52px; height:52px; border-radius:50%; background:rgba(255,255,255,.22);
+    display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:800}
+  .d1{background:var(--g1)} .d2{background:var(--g2)} .d3{background:var(--g3)} .d4{background:var(--g4)} .db{background:var(--gb)} .dm{background:var(--gm)}
+
+  .top{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px}
+  .back{width:40px;height:40px;border-radius:50%;background:var(--card2);border:1px solid var(--line);
+    color:var(--tx); font-size:22px; display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .startbtn{background:var(--green); color:#04331f; border:none; border-radius:12px; padding:11px 20px;
+    font-size:15px; font-weight:800; font-family:inherit; cursor:pointer; box-shadow:0 6px 20px rgba(48,209,88,.4)}
+  .startbtn.run{background:var(--card2); color:var(--tx); border:1px solid var(--line); font-variant-numeric:tabular-nums; font-size:17px; box-shadow:none}
+  .whead{border-radius:20px; padding:18px 20px; color:#fff; margin-bottom:14px}
+  .whead .tag{font-size:11px;font-weight:700;opacity:.82;text-transform:uppercase;letter-spacing:.09em}
+  .whead .t{font-size:24px;font-weight:800;margin-top:5px;letter-spacing:-.02em}
+  .whead .s{font-size:12px;opacity:.9;margin-top:5px;font-weight:500}
+  .whead.plain{background:none; padding:6px 2px 2px}
+  .banner{background:rgba(255,69,58,.10); border:1px solid rgba(255,69,58,.28);
+    color:#ff8f88; font-size:12px; border-radius:12px; padding:10px 13px; margin-bottom:14px; line-height:1.45}
+
+  .prog{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px 16px; margin-bottom:14px}
+  .prog .h{font-size:12px; color:var(--tx2); font-weight:600; display:flex; justify-content:space-between}
+  .bars{display:flex; align-items:flex-end; gap:6px; height:58px; margin-top:12px}
+  .bars .b{flex:1; background:#3a3a42; border-radius:5px 5px 0 0; min-height:3px}
+  .bars .b.last{background:var(--green)}
+
+  .painrow{display:flex; gap:10px; margin-bottom:14px}
+  .painrow .fld{flex:1}
+  .fld label{display:block;font-size:11px;color:var(--tx3);margin-bottom:5px}
+  .fld input{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--tx);
+    border-radius:10px;padding:9px 11px;font-size:14px;outline:none}
+
+  .warmtoggle{width:100%; text-align:left; background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:14px 16px; color:var(--tx); font-family:inherit; font-size:14px; font-weight:600; cursor:pointer;
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:11px}
+  .warmtoggle .sub{color:var(--tx3); font-size:12px; font-weight:500}
+  .chev{transition:transform .2s} .chev.open{transform:rotate(180deg)}
+
+  .sechead{font-size:11.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--tx3); font-weight:700; margin:20px 4px 10px; display:flex; align-items:center; gap:9px}
+  .sechead .ln{flex:1;height:1px;background:var(--line)}
+  .ex{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:14px 15px; margin-bottom:11px}
+  .ex.warm{background:#101012; border-color:#232327}
+  .exhd{display:flex; justify-content:space-between; align-items:flex-start; gap:10px}
+  .ex .name{font-size:15px; font-weight:700; letter-spacing:-.01em}
+  .ex .plan{font-size:12px; color:var(--tx2); margin-top:3px}
+  .ex .note{font-size:12px; color:#e0c98a; margin-top:4px}
+  .swap{display:inline-block; font-size:11px; color:var(--amber); background:rgba(255,159,10,.13);
+    padding:3px 8px; border-radius:7px; margin-top:7px; font-weight:600; line-height:1.35}
+  .techbtn{flex:0 0 auto; display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,.07);
+    border:1px solid var(--line); color:#dcdce4; border-radius:10px; padding:8px 12px; font-size:12.5px;
+    font-weight:600; white-space:nowrap; cursor:pointer; font-family:inherit}
+  .cues{margin-top:11px; background:#0e0e10; border:1px solid var(--line); border-radius:12px; padding:11px 13px}
+  .cues .c{font-size:12.5px; line-height:1.5; margin:2px 0; color:var(--tx)}
+  .cues .c.ok::before{content:"✓ "; color:var(--green); font-weight:800}
+  .cues .c.no::before{content:"✗ "; color:var(--red); font-weight:800}
+  .cues .vbtn{margin-top:9px; display:inline-flex; align-items:center; gap:6px; background:#fff; color:#000;
+    border:none; border-radius:9px; padding:8px 13px; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit}
+  .cues .vbtn.off{background:transparent;color:var(--tx3);border:1px solid var(--line);cursor:default}
+
+  table.sets{width:100%; border-collapse:collapse; margin-top:12px}
+  table.sets th{font-size:10px; color:var(--tx3); font-weight:700; text-transform:uppercase; text-align:center; padding:0 2px 7px}
+  table.sets th.l{text-align:left}
+  table.sets td{padding:3px 2px; text-align:center; vertical-align:middle}
+  .setno{width:24px; color:var(--tx); font-weight:800; font-size:16px}
+  .prevc{font-size:12px; color:var(--tx2); white-space:nowrap; min-width:46px}
+  .prevc b{color:var(--green); font-weight:700}
+  .sinp{width:100%; background:var(--card2); border:1px solid var(--line); color:var(--tx); border-radius:9px;
+    padding:10px 4px; font-size:16px; font-weight:600; text-align:center; outline:none}
+  .sinp:focus{border-color:var(--green); box-shadow:0 0 0 3px rgba(48,209,88,.16)}
+  td.chk{width:36px}
+  .done{width:31px;height:31px;border-radius:9px;border:1.5px solid var(--line);background:transparent;color:var(--tx3);
+    font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center; transition:.12s}
+  tr.setdone .done{background:var(--green); border-color:var(--green); color:#052; transform:scale(1.05); box-shadow:0 0 14px rgba(48,209,88,.55)}
+  tr.setdone .sinp{border-color:rgba(48,209,88,.4); background:rgba(48,209,88,.08)}
+  .pr{display:inline-block;font-size:9.5px;font-weight:800;color:#1a1200;background:var(--amber);
+    padding:1px 5px;border-radius:5px;margin-left:5px;animation:pop .3s ease}
+  @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+  .addset{margin-top:10px; width:100%; background:var(--card2); border:1px dashed var(--line); color:var(--tx2);
+    border-radius:10px; padding:10px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit}
+  .exvol{font-size:11.5px; color:var(--tx3); margin-top:10px; text-align:right}
+
+  .savebar{position:fixed; left:0; right:0; bottom:0; padding:12px 16px calc(12px + env(safe-area-inset-bottom));
+    background:linear-gradient(to top,#000 62%,transparent); max-width:500px; margin:0 auto}
+  .savebtn{width:100%; background:#fff; color:#000; border:none; border-radius:14px; padding:16px; font-size:16px; font-weight:800; font-family:inherit; cursor:pointer}
+  .rest{position:fixed; left:50%; transform:translateX(-50%); bottom:96px; z-index:20; background:#1c1c22;
+    border:1px solid rgba(48,209,88,.4); border-radius:14px; padding:10px 16px; display:none; align-items:center; gap:14px; box-shadow:0 8px 30px rgba(0,0,0,.6),0 0 20px rgba(48,209,88,.12)}
+  .rest.show{display:flex}
+  .rest .tm{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums;min-width:62px;text-align:center;color:var(--green)}
+  .rest button{background:transparent;border:1px solid var(--line);color:var(--tx);border-radius:9px;padding:6px 10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+
+  .modal{position:fixed; inset:0; background:rgba(0,0,0,.9); z-index:50; display:none; align-items:center; justify-content:center; padding:16px}
+  .modal.show{display:flex}
+  .modal .box{width:100%; max-width:560px}
+  .modal .vwrap{position:relative; padding-top:56.25%; background:#000; border-radius:16px; overflow:hidden}
+  .modal iframe{position:absolute; inset:0; width:100%; height:100%; border:0}
+  .modal .cls{margin-top:12px; width:100%; background:#fff; color:#000; border:none; border-radius:12px; padding:14px; font-size:15px; font-weight:800; cursor:pointer; font-family:inherit}
+  .foot{color:var(--tx3); font-size:11.5px; text-align:center; margin-top:24px; line-height:1.6}
+  .brandfoot{text-align:center; padding:26px 0 6px}
+  .ssmono{display:inline-block; font-size:20px; font-weight:800; letter-spacing:.08em; color:var(--tx2);
+    border:1.5px solid var(--line); border-radius:12px; padding:6px 13px; background:linear-gradient(135deg,#1b1b20,#131316)}
+  .verline{font-size:11px; color:var(--tx3); margin-top:9px; letter-spacing:.02em}
+  .topright{display:flex; gap:10px; align-items:center}
+  .musicbtn2{width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,#bf5af2,#7a7cff);
+    color:#fff; border:none; font-size:18px; cursor:pointer; box-shadow:0 4px 16px rgba(122,124,255,.35); flex:0 0 auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section id="home">
+    <div class="hrow"><h1>Тренировки</h1><div class="datebadge" id="datebadge"></div></div>
+    <div class="quote" id="quote">
+      <div class="qtx" id="q-tx"></div>
+      <div class="qauth" id="q-auth"></div>
+    </div>
+    <div class="seg">
+      <button id="seg-morn" class="on" onclick="setTab('morn')">Растяжка</button>
+      <button id="seg-zal" onclick="setTab('zal')">Зал</button>
+      <button id="seg-reha" onclick="setTab('reha')">ЛФК</button>
+    </div>
+    <div class="stats" id="tabstats"></div>
+    <div id="cap" class="cap"></div>
+    <div id="days"></div>
+    <div class="brandfoot"><div class="verline">Тренировки · v1.0 · релиз 16 июля 2026</div></div>
+  </section>
+
+  <section id="workout" class="hidden">
+    <div class="top">
+      <button class="back" onclick="leaveWorkout()">‹</button>
+      <div class="topright">
+        <button class="musicbtn2" onclick="openMusic()" aria-label="Музыка">♪</button>
+        <button class="startbtn" id="startbtn" onclick="toggleStart()">▶ Начать</button>
+      </div>
+    </div>
+    <div id="whead" class="whead"></div>
+    <div id="progwrap"></div>
+    <div id="wbanner"></div>
+    <div id="painwrap"></div>
+    <div id="warmwrap"></div>
+    <div id="exlist"></div>
+    <div class="foot">Тренировка завершится сама, если ничего не вводить ~15 минут (время конца — по последнему вводу). Кнопка ниже — если хочешь закрыть сразу.</div>
+  </section>
+</div>
+
+<div id="restbar" class="rest"><span>Отдых</span><span class="tm" id="rest-tm">0:00</span>
+  <button onclick="restAdd(15)">+15 сек</button><button onclick="restSkip()">Готово, дальше</button></div>
+<div class="savebar hidden" id="savebar"><button class="savebtn" onclick="finishWorkout(false)">Завершить тренировку</button></div>
+<div class="modal" id="videoModal"><div class="box">
+  <div class="vwrap"><iframe id="videoFrame" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>
+  <button class="cls" onclick="closeVideo()">Закрыть · вернуться к тренировке</button></div></div>
+
+<script>
+const DOC="https://docs.google.com/document/d/1ryNFDSc1UVDNjrXyuasqVAn-v0ZLaPPx2asd0SjL5iU/edit#bookmark=id.";
+function e2(name,sets,reps,rest,o={}){return Object.assign({name,sets,reps,rest},o);}
+const ZAL=[
+ {tag:"День 1",name:"Грудь + Бицепс",accent:"d1",
+  warmup:[e2("Птица-собака",4,"24","1 мин",{vid:"Y2f7vePfhxA"}),e2("Ягодичный мост лёжа",2,"50","1 мин",{vid:"_rk0sjIGUlw"}),
+   e2("Поднятие гантелей (суставная)",1,"20","1 мин",{vid:"jycaUr9Yo_k"}),e2("Махи гантелями в стороны",1,"20","1 мин",{vid:"B5PnAqHyJ68"}),
+   e2("Махи в наклоне на заднюю дельту",1,"20","1 мин",{vid:"C2CKdSS-YIw",cues:["ok:На старте растяни заднюю дельту — расположись так, чтобы нагрузка была с самого начала","ok:Увеличивай амплитуду минимум вдвое — нагрузка постоянная и выше","no:Не начинай так, что на старте и в середине нагрузки нет (только в крайней точке)"]})],
+  main:[
+   e2("Жим штанги лёжа",4,"12","1.5 мин",{note:"Спина плоская, поясницу не мостить",vid:"xYELiWCDpyY",
+     cues:["ok:Лопатки сведены, стопы плотно в пол","ok:Опускай к нижней части груди под контролем","no:Не мости поясницу (важно для спины)","no:Не отбивай штангу от груди"]}),
+   e2("Жим гантелей под углом 30–45°",4,"12","1.5 мин",{vid:"v7TMYuiuWBc",
+     cues:["ok:Локти максимально к корпусу, гантели соедини","ok:Коротким прожимом вверх от верха груди, плечами сдавливай грудь","no:Не допускай, чтобы локти разошлись в стороны"]}),
+   e2("Разводка в бабочке",2,"15","1 мин",{vid:"qpWLXAdJPTU",
+     cues:["ok:Плечи назад, лопатки сведены, отсядь вперёд (опора — лопатки)","ok:Локти вниз, руку в локте выпрями (длинный рычаг)","ok:Сдавливай грудь плечами — грудь впереди плеча","no:Сильно сгибать локоть — работают руки, не грудь","no:Выводить плечо вперёд — грудь расслабляется"]}),
+   e2("Подъём гантелей на бицепс сидя",3,"12","1 мин",{vid:"_0GuHuzdI6U",
+     cues:["ok:Выведи локти вперёд и подними их вверх — растёт активность бицепса","ok:Поднимай гантель перед собой, не закидывай на себя","ok:Докручивай мизинец вверх — больше амплитуда и нагрузка","no:Локти назад — режет амплитуду, нагрузку берут предплечья","no:Закидывать вверх — там нагрузки нет"]}),
+   e2("Молотки сидя",3,"12","1 мин",{vid:"c69uwtju5J0",
+     cues:["ok:Нейтральный хват (молоток), локти неподвижны","no:Не раскачивайся, работай кистью нейтрально"]}),
+   e2("Сгибания на скамье Скотта",3,"12","1 мин",{vid:"oTDQu43NDTU",
+     cues:["ok:Нагрузка в средней части амплитуды — там и работай","ok:Поднимай гриф перед собой (амплитуда, нагрузка постоянная)","no:Не разгибай локоть до конца — травмоопасно","no:Гриф сильно на себя не закидывай — нагрузка уходит","no:Кисть на себя не подкручивай — съедает предплечье"]})]},
+ {tag:"День 2",name:"Ноги + Ягодицы",accent:"d2",
+  warmup:[e2("Птица-собака",4,"24","1 мин",{vid:"Y2f7vePfhxA"}),e2("Ягодичный мост лёжа",2,"50","1 мин",{vid:"_rk0sjIGUlw"})],
+  main:[
+   e2("Жим платформы (широкая постановка)",4,"15","1.5 мин",{vid:"OUqIs0bLju4",
+     cues:["ok:Стопы посередине или ближе к низу платформы, носки слегка врозь","ok:Колени по носкам, идут в стороны, груди не касаются","ok:Дави в носок при выпрямлении — максимум квадрицепса","no:Ноги вверх не ставь — узкая постановка режет амплитуду","no:Таз/поясницу от спинки не отрывай (важно для спины)"]}),
+   e2("Жим одной ногой в платформе",2,"15 / нога","1 мин",{vid:"1apQLHBme_U",swap:"замена выпадов — без нагрузки на позвоночник",
+     cues:["ok:Таз прижат к спинке, носок слегка наружу, колено опускай к плечу","ok:Внизу растяни заднюю поверхность бедра; выжимая — сначала сократи ягодицу пяткой","ok:Акцент на большую ягодичную (работает и задняя, и передняя поверхность бедра)","no:Не отрывай поясницу от спинки"]}),
+   e2("Разгибание ног в тренажёре",4,"15","1 мин",{vid:"xFkiVSS9Ntc",
+     cues:["ok:Подними ролик выше и отодвинь спинку назад — растяжка квадрицепса, нагрузка со старта","ok:Носки слегка врозь — равномерно латераль/медиаль","ok:Пауза вверху, плавно вниз","no:Не бей коленом в замок рывком"]}),
+   e2("Хип-траст в тренажёре",4,"15","1 мин",{swap:"замена моста со штангой — без грифа на спине",
+     cues:["ok:Подбородок к груди, толкай пятками","ok:Сжимай ягодицы вверху","no:Не переразгибай поясницу вверху"]}),
+   e2("Подъём на носках сидя",4,"30","1 мин",{vid:"UHYqWgvkNTg",cues:["ok:Много повторов (50–100); чтобы дойти до отказа раньше жжения — делай по одной ноге","ok:Можно добавить утяжеление в руку на рабочую сторону","no:Жжение ≠ отказ; рост даёт отказ — сокращай время под нагрузкой и доводи до отказа"]})]},
+ {tag:"День 3",name:"Спина + Трицепс",accent:"d3",
+  warmup:[e2("Птица-собака",4,"24","1 мин",{vid:"Y2f7vePfhxA"}),e2("Махи в наклоне на заднюю дельту",1,"20","1 мин",{vid:"C2CKdSS-YIw",cues:["ok:На старте растяни заднюю дельту — расположись так, чтобы нагрузка была с самого начала","ok:Увеличивай амплитуду минимум вдвое — нагрузка постоянная и выше","no:Не начинай так, что на старте и в середине нагрузки нет (только в крайней точке)"]}),
+   e2("Махи гантелями в стороны",1,"20","1 мин",{vid:"B5PnAqHyJ68"}),e2("Поднятие гантелей (суставная)",1,"20","1 мин",{vid:"jycaUr9Yo_k"}),e2("Ягодичный мост лёжа",2,"50","1 мин",{vid:"_rk0sjIGUlw"})],
+  main:[
+   e2("Подтягивания широким хватом",4,"макс","1 мин",{vid:"Z9T7MrBsRz4",note:"Без рывков и раскачки",
+     cues:["ok:Для широчайшей — хват уже, локти ближе к корпусу, тяни грудь к перекладине","ok:Хочешь бицепс — ладони вверх, сгибай руки до 90°","no:Широким хватом за голову широчайшую не прокачаешь (это круглая мышца) и риск для плеч","no:Без рывков и раскачки"]}),
+   e2("Тяга горизонтального блока к поясу",4,"12","1 мин",{vid:"Qe0vhjQrpH0",note:"Спина нейтральна",
+     cues:["ok:Тяни рукоять к поясу, локти держи узко (у корпуса)","ok:Корпус слегка наклони, руку в локте сильно не сгибай","no:Не своди лопатки и не прижимай рукоять максимально к себе — иначе работает трапеция и бицепс, а не широчайшая"]}),
+   e2("Тяга вертикального блока к груди (средний хват)",3,"12","1 мин",{vid:"DWpmehuW8so",
+     cues:["ok:Локти смотрят внутрь (не в стороны) — работает широчайшая","ok:Опускай сначала плечо, потом локоть; веди к низу груди","no:Рукоять сильно вниз не тяни, лопатки не своди, локоть сильно не сгибай"]}),
+   e2("Тяга к лицу",4,"15","1 мин",{vid:"PQpODZ_3we0",start:22,note:"Шея нейтральна, подбородок не задирать",
+     cues:["ok:Канат зацепи за самый верх кроссовера, отойди на 1–2 шага","ok:Ладони внутрь — изолированно работают задние дельты и вращательная манжета","no:Не задирай подбородок (грыжи шеи!), шея нейтральна"]}),
+   e2("Жим штанги лёжа узким хватом",3,"12","1 мин",{vid:"nQgt5wPSjxA",
+     cues:["ok:Узкий хват грузит именно трицепс","ok:Спина плоская, локти вдоль корпуса","no:Возьмёшься шире — включается грудь, трицепс недогружен"]}),
+   e2("Французский жим с гантелями",3,"12","1 мин",{vid:"k-v6xxdukRs",
+     cues:["ok:Наклони локоть немного назад — сохраняешь постоянную нагрузку на трицепс","no:Локоть строго вверх — в верхней точке нагрузка спадает (вес давит вниз)","no:Не разводи локти, не роняй на лоб"]}),
+   e2("Разгибание на трицепс с канатной рукоятью",4,"12","1 мин",{vid:"hUIAYhHx2Vw",
+     cues:["ok:Опусти блок на уровень низа груди, руки за голову, корпус слегка вперёд, локти в стороны, разгибай вверх","ok:Нагрузка с самого старта и растёт кверху (пиковая вверху), амплитуда вдвое больше","no:Не начинай движение от груди вниз к поясу — там на старте нагрузки нет, амплитуда короткая"]})]},
+ {tag:"День 4",name:"Плечи + Кор",accent:"d4",
+  warmup:[e2("Птица-собака",4,"24","1 мин",{vid:"Y2f7vePfhxA"}),e2("Махи в наклоне на заднюю дельту",1,"20","1 мин",{vid:"C2CKdSS-YIw",cues:["ok:На старте растяни заднюю дельту — расположись так, чтобы нагрузка была с самого начала","ok:Увеличивай амплитуду минимум вдвое — нагрузка постоянная и выше","no:Не начинай так, что на старте и в середине нагрузки нет (только в крайней точке)"]}),
+   e2("Махи гантелями в стороны",1,"20","1 мин",{vid:"B5PnAqHyJ68"}),e2("Ягодичный мост лёжа",2,"50","1 мин",{vid:"_rk0sjIGUlw"}),e2("Поднятие гантелей (суставная)",1,"20","1 мин",{vid:"jycaUr9Yo_k"})],
+  main:[
+   e2("Жим на плечи в тренажёре (опора под спину)",4,"12","1 мин",{vid:"Ri0fuHXblaA",start:3,swap:"замена жима над головой — без осевой нагрузки и разгибания шеи",
+     cues:["ok:Спина в опоре, комфортная амплитуда","no:Не переразгибай шею и поясницу (ради этого замена)","no:Не жми до боли в плече"]}),
+   e2("Разведение гантелей в стороны",4,"12","1 мин",{vid:"_oXsNyIeS8s",
+     cues:["ok:Вариант из видео: облокотись боком на лавку под углом, руку опусти вниз","ok:Отводи локоть в сторону, плечо вверх не поднимай","ok:Нагрузка со старта, амплитуда большая и постоянная","no:Стоя на старте нагрузки почти нет — потому и вариант в наклоне"]}),
+   e2("Отведение в пек-деке (задняя дельта)",4,"15","1 мин",{vid:"5JYeo9hgIC8",start:14,
+     cues:["ok:Грудь в опоре, своди лопатки, локти отводи назад","no:Не тяни руками, не горби шею"]}),
+   e2("Планка",3,"макс","1.5 мин",{vid:"J53g3j927h0",start:60,
+     cues:["ok:Локти строго под плечами (плечо перпендикулярно полу)","ok:Таз подкручен (копчик вниз), шея вытянута — тело в ровную линию","ok:Пресс, ягодицы, поясница в напряжении — нагрузка не идёт на позвоночник","ok:Начни с 30 сек – 1–2 мин, добавляй по 5–10 сек"]}),
+   e2("Dead Bug",4,"макс","1 мин",{vid:"QPTGyWN4dA8",start:31,
+     cues:["ok:Между корпусом и рукой ~90°, между корпусом и ногой ~90°, колено ~90°","ok:Поясница прижата: подкрути таз, опусти рёбра к тазу, втяни живот","ok:Диагональ (правая рука + левая нога) на выдохе; чем дальше нога — тем сильнее пресс","no:Не прогибай поясницу и грудной отдел"]}),
+   e2("Боковая планка",3,"20–30 сек / сторона","1 мин",{vid:"q4hzrrvIFtk",swap:"замена скручиваний — без сгибания поясницы",
+     cues:["ok:Локоть чётко под плечом, не выходит вперёд или назад","ok:Тело — одна ровная линия, пресс и ягодицы в напряжении","no:Не отводи таз назад и не выпячивай вперёд"]})]},
+];
+const REHA=[
+ {tag:"Реабилитация",name:"Бубновский — спина",accent:"db",pain:false,hideMainHead:true,
+  banner:"⚠ Без осевой нагрузки · выдох «Хаа» в усилии · СТОП при простреле в ногу или онемении. Малый вес, много повторов.",
+  warmup:[],
+  main:[
+   e2("Тяга с верхнего блока сидя",4,"15–20","1.5 мин",{docid:"wfejthiwwsqt",
+     cues:["ok:Спина прямая как доска на всём отклонении","ok:Руки прямые, пока корпус не дошёл до 45°","ok:Выдох «Хаа» на отклонении назад","no:Не тянуть руками с самого начала","no:Не круглить спину, не заваливаться дальше 45°"]}),
+   e2("Сгибание ноги лёжа на скамье",4,"15 / нога","1.5 мин",{docid:"wxpng7tc2n2e",
+     cues:["ok:Таз НЕ отрывается от скамьи","ok:Стопа натянута на себя всё движение","ok:Выдох при сгибании к ягодице","no:Поясница не «помогает», без рывка"]}),
+   e2("Дракон — колено к животу",4,"15–20 / нога","1.5 мин",{docid:"aejyw2jz4hbk",
+     cues:["ok:Таз параллелен полу, НЕ разворачивается","ok:Руки прямые, взгляд ведёт спину","ok:Выдох при подтягивании колена","no:Не разворачивай таз набок, не сгибай руки"]}),
+   e2("Спина — мах прямой ногой",4,"15–20 / нога","1.5 мин",{docid:"vw1d58qet1sd",
+     cues:["ok:Оба колена прямые, таз и поясница прижаты","ok:Выдох на ОПУСКАНИИ ноги (не на подъёме!)","no:Не сгибай рабочее колено, не отрывай таз"]}),
+   e2("Растяжка «Складной нож»",5,"3–5 сек","—",{docid:"n1rzx2262qaz",
+     cues:["ok:На выдохе тянись вперёд, колени постепенно выпрямляй","ok:Боль под коленом/в пояснице — это растяжение, норма"]})]},
+];
+const STRETCH=[
+ {name:"Растяжка всего тела",sub:"~15 мин · ноги и спина",vid:"O6Vm6vKFbvA"},
+ {name:"Утренняя гимнастика для спины",sub:"~15 мин · спина",vid:"WbxkKxXSZe0"},
+ {name:"Растяжка на каждый день",sub:"~15 мин · позвоночник · neofit",vid:"D3Ysvoz7I2E",start:51}
+];
+
+const SK="wlog_v1";
+function store(){try{return JSON.parse(localStorage.getItem(SK))||{last:{},sessions:[]}}catch(e){return{last:{},sessions:[]}}}
+function saveStore(s){localStorage.setItem(SK,JSON.stringify(s))}
+function wId(w){return w.tag+"|"+w.name}
+function exKey(w,e){return wId(w)+"::"+e.name}
+function dayKey(ts){const d=new Date(ts);return d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate();}
+function listFor(t){return t==="zal"?ZAL:REHA}
+
+let TAB="morn";
+function setTab(t){TAB=t;
+  ["zal","reha","morn"].forEach(k=>document.getElementById("seg-"+k).classList.toggle("on",k===t));
+  renderStats(t);
+  if(t==="reha"){openW("reha",0);return;}
+  renderDays();
+}
+function renderDays(){
+  if(TAB==="morn"){renderStretch();return;}
+  const list=listFor(TAB);
+  document.getElementById("cap").textContent = TAB==="zal"
+    ? "Сплит 4 дня · до 28 декабря 2026 · старт с нуля"
+    : "Реабилитация спины · пн · ср · пт";
+  document.getElementById("days").innerHTML=list.map((w,i)=>{
+    const cnt=w.warmup.length+w.main.length;
+    return `<button class="daycard ${w.accent}" onclick="openW('${TAB}',${i})">
+      <span class="info"><span class="tag">${w.tag}</span><span class="t">${w.name}</span></span>
+      <span class="n">${cnt}</span></button>`;
+  }).join("");
+}
+function renderStretch(){
+  const s=store();
+  const set=new Set((s.sessions||[]).filter(x=>x.prog==="morn").map(x=>dayKey(x.ts)));
+  const now=new Date(), todayK=dayKey(now.getTime());
+  const dow=(now.getDay()+6)%7, monday=new Date(now); monday.setDate(now.getDate()-dow); monday.setHours(0,0,0,0);
+  const L=["Пн","Вт","Ср","Чт","Пт","Сб","Вс"];
+  let doneWeek=0,dots="";
+  for(let i=0;i<7;i++){const dd=new Date(monday); dd.setDate(monday.getDate()+i); const k=dayKey(dd.getTime());
+    const done=set.has(k); if(done)doneWeek++; dots+=`<div class="dot ${done?'on':''} ${k===todayK?'today':''}"><span>${L[i]}</span></div>`;}
+  let streak=0; const cur=new Date(now); cur.setHours(0,0,0,0);
+  if(!set.has(dayKey(cur.getTime()))) cur.setDate(cur.getDate()-1);
+  while(set.has(dayKey(cur.getTime()))){streak++; cur.setDate(cur.getDate()-1);}
+  const todaySet=new Set((s.sessions||[]).filter(x=>x.prog==="morn"&&dayKey(x.ts)===todayK).map(x=>x.sidx));
+  const todayDone=todaySet.size>0;
+  document.getElementById("cap").textContent="";
+  const habit=`<div class="habit">
+    <div class="hstatus"><span class="dotbig ${todayDone?'on':''}"></span>${todayDone?"Сегодня размялся — красава":"Сегодня ещё не размялся"}</div>
+    <div class="hdots">${dots}</div>
+    <div class="hmeta">За неделю: <b>${doneWeek}</b> из 6 · подряд <b>${streak}</b> дн.</div></div>`;
+  const cards=STRETCH.map((x,i)=>{const cd=todaySet.has(i);return `<div class="scard">
+    <button class="splay" onclick="openVideo('${x.vid}'${x.start?","+x.start:""})">▶</button>
+    <div class="sinfo"><div class="st">${x.name}</div><div class="ss">${x.sub}</div></div>
+    <button class="sdone ${cd?'ok':''}" onclick="markStretch(${i})">${cd?'✓':'Сделал'}</button>
+  </div>`;}).join("");
+  document.getElementById("days").innerHTML=habit+cards;
+}
+function markStretch(i){
+  const s=store();s.sessions=s.sessions||[];
+  s.sessions.push({ts:Date.now(),prog:"morn",sidx:i,title:STRETCH[i].name,date:new Date().toLocaleDateString("ru-RU")});
+  saveStore(s);
+  syncToSheet("morn",[[new Date().toLocaleDateString("ru-RU"),new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"}),STRETCH[i].name]]);
+  renderStretch();
+}
+function classifyProg(x){if(x.prog)return x.prog; if(x.tag==="Реабилитация")return "reha"; if(x.tag==="Утро")return "morn"; return "zal";}
+function renderStats(tab){
+  tab=tab||TAB;
+  const s=store(),wk=Date.now()-7*864e5,sess=s.sessions||[];
+  const tile=(v,l)=>`<div class="stat"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+  const el=document.getElementById("tabstats");
+  if(tab==="morn"){el.innerHTML="";return;}
+  const f=sess.filter(x=>classifyProg(x)===tab);
+  const week=f.filter(x=>x.ts>wk).length,total=f.length;
+  if(tab==="reha"){
+    const lp=[...f].reverse().find(x=>x.painAfter!==undefined&&x.painAfter!=="");
+    el.innerHTML=tile(week,"на этой неделе")+tile(total,"всего")+tile(lp?lp.painAfter:"—","боль спины, посл.");
+  } else {
+    const lv=[...f].reverse().find(x=>x.volume);
+    el.innerHTML=tile(week,"на этой неделе")+tile(total,"всего в зале")+tile(lv&&lv.volume?Math.round(lv.volume):0,"тоннаж, посл.");
+  }
+}
+
+let CUR=null,START=null,timerInt=null,lastAct=null,FINISHED=false,idleInt=null,CURTAB=null;
+const IDLE_MS=15*60*1000;
+function openW(tab,i){
+  const w=listFor(tab)[i]; CUR=w; CURTAB=tab; START=null; lastAct=null; FINISHED=false;
+  clearInterval(timerInt); clearInterval(idleInt); idleInt=setInterval(idleCheck,20000);
+  const s=store();
+  const sb=document.getElementById("startbtn"); sb.className="startbtn"; sb.textContent="▶ Начать";
+  document.getElementById("whead").className="whead "+(tab==="reha"?"plain":w.accent);
+  const subs = tab==="zal"?"Сплит 4 дня · до 28 декабря 2026":tab==="reha"?"Комплекс по методике клиники Бубновского. Желательно делать 3 раза в неделю":"Каждое утро";
+  document.getElementById("whead").innerHTML=`<div class="tag">${w.tag}</div>`+(tab==="reha"?"":`<div class="t">${w.name}</div>`)+`<div class="s">${subs}</div>`;
+  document.getElementById("wbanner").innerHTML = w.banner?`<div class="banner">${w.banner}</div>`:"";
+  document.getElementById("progwrap").innerHTML=progHTML(w,s);
+  document.getElementById("painwrap").innerHTML=w.pain
+    ? `<div class="painrow"><div class="fld"><label>Боль ДО (0–10)</label><input id="pain-a" inputmode="numeric"></div><div class="fld"><label>Боль ПОСЛЕ</label><input id="pain-b" inputmode="numeric"></div><div class="fld"><label>Вес тела, кг</label><input id="bw" inputmode="decimal"></div></div>` : "";
+  // warmup collapsed
+  if(w.warmup.length){
+    document.getElementById("warmwrap").innerHTML=
+      `<button class="warmtoggle" onclick="toggleWarm()"><span>Разминка<span class="sub"> · ${w.warmup.length} упр.</span></span><span class="chev" id="warmchev">▾</span></button>
+       <div id="warmbody" class="hidden">${w.warmup.map(x=>exBlock(w,x,s,true)).join("")}</div>`;
+  } else document.getElementById("warmwrap").innerHTML="";
+  document.getElementById("exlist").innerHTML=
+    (w.hideMainHead?"":`<div class="sechead"><span>${w.mainLabel||"Основное"}</span><span class="ln"></span></div>`)+
+    w.main.map(x=>exBlock(w,x,s,w.allNokg)).join("");
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("workout").classList.remove("hidden");
+  document.getElementById("savebar").classList.remove("hidden");
+  window.scrollTo(0,0);
+}
+function toggleWarm(){const b=document.getElementById("warmbody"),c=document.getElementById("warmchev");
+  b.classList.toggle("hidden");c.classList.toggle("open");}
+function progHTML(w,s){
+  const vols=(s.sessions||[]).filter(x=>x.wid===wId(w)&&x.volume).slice(-8).map(x=>x.volume);
+  if(vols.length<2) return "";
+  const mx=Math.max(...vols);
+  const bars=vols.map((v,i)=>`<div class="b ${i===vols.length-1?'last':''}" style="height:${Math.max(3,Math.round(v/mx*58))}px"></div>`).join("");
+  return `<div class="prog"><div class="h"><span>Прогресс · тоннаж по сессиям</span><span>${Math.round(vols[vols.length-1])} кг</span></div><div class="bars">${bars}</div></div>`;
+}
+function cuesHTML(e){
+  const lines=(e.cues||[]).map(c=>{const ok=c.startsWith("ok:");return `<div class="c ${ok?'ok':'no'}">${c.slice(3)}</div>`;}).join("");
+  let vbtn="";
+  if(e.vid) vbtn=`<button class="vbtn" onclick="openVideo('${e.vid}'${e.start?","+e.start:""})">▶ Смотреть видео</button>`;
+  else if(e.docid) vbtn=`<button class="vbtn" onclick="openDoc('${e.docid}')">▶ Открыть разбор</button>`;
+  else vbtn=`<button class="vbtn off">видео скоро</button>`;
+  return `<div class="cues hidden">${lines||'<div class="c">Заметок пока нет.</div>'}${vbtn}</div>`;
+}
+function exBlock(w,e,s,nokg){
+  const key=exKey(w,e),prev=s.last[key]||null;
+  const note=e.note?`<div class="note">${e.note}</div>`:"";
+  const swap=e.swap?`<div class="swap">↺ ${e.swap}</div>`:"";
+  const hasCues=e.cues&&e.cues.length;
+  let tech="";
+  if(hasCues) tech=`<button class="techbtn" onclick="toggleCues(this)">Техника ▾</button>`;
+  else if(e.vid) tech=`<button class="techbtn" onclick="openVideo('${e.vid}'${e.start?","+e.start:""})">▶ Видео</button>`;
+  else if(e.docid) tech=`<button class="techbtn" onclick="openDoc('${e.docid}')">▶ Разбор</button>`;
+  let rows="";
+  for(let i=0;i<e.sets;i++){
+    const p=prev&&prev[i]?prev[i]:null;
+    const pTxt=p?(nokg?`× <b>${p.reps||"—"}</b>`:`<b>${p.kg||"—"}</b> × ${p.reps||"—"}`):"—";
+    const kgCell=nokg?"":`<td><input class="sinp kg" inputmode="decimal" ${p&&p.kg?`value="${p.kg}"`:""} placeholder="кг"></td>`;
+    rows+=`<tr data-pk="${p&&p.kg?p.kg:""}">
+      <td class="setno">${i+1}</td><td class="prevc">${pTxt}</td>${kgCell}
+      <td><input class="sinp rp" inputmode="numeric" placeholder="${p&&p.reps?p.reps:e.reps}"></td>
+      <td class="chk"><button class="done" onclick="toggleSet(this,'${e.rest}')">✓</button></td></tr>`;
+  }
+  const kgTh=nokg?"":`<th>Кг</th>`;
+  return `<div class="ex ${nokg?'warm':''}" data-key="${key}" data-nokg="${nokg?1:0}" data-rest="${e.rest}">
+    <div class="exhd"><div><div class="name">${e.name}</div><div class="plan">План ${e.sets}×${e.reps}${e.rest!=="—"?" · отдых "+e.rest:""}</div>${swap}</div>${tech}</div>
+    ${hasCues?cuesHTML(e):""}
+    <table class="sets"><thead><tr><th>№</th><th class="l">Прошлый</th>${kgTh}<th>Повт.</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="exvol"></div></div>`;
+}
+function toggleCues(btn){const p=btn.closest(".ex").querySelector(".cues");p.classList.toggle("hidden");}
+function exVol(exEl){if(exEl.dataset.nokg==="1")return;let v=0;
+  exEl.querySelectorAll("tbody tr").forEach(tr=>{const kg=tr.querySelector(".kg");v+=(kg?parseFloat(kg.value)||0:0)*(parseInt(tr.querySelector(".rp").value)||0);});
+  exEl.querySelector(".exvol").textContent=v>0?("Объём: "+Math.round(v)+" кг"):"";}
+function toggleSet(btn,rest){markActivity();const tr=btn.closest("tr");tr.classList.toggle("setdone");
+  const exEl=btn.closest(".ex");exVol(exEl);
+  if(tr.classList.contains("setdone")){
+    const kgi=tr.querySelector(".kg");const pk=parseFloat(tr.dataset.pk)||0,kg=kgi?parseFloat(kgi.value)||0:0;
+    if(pk&&kg>pk&&!tr.querySelector(".pr"))tr.querySelector(".prevc").insertAdjacentHTML("beforeend",`<span class="pr">РЕКОРД</span>`);
+    startRest(rest);
+  }}
+document.addEventListener("input",e=>{if(e.target.classList.contains("sinp")){markActivity();const ex=e.target.closest(".ex");if(ex)exVol(ex);}});
+
+function toggleStart(){const b=document.getElementById("startbtn");
+  if(!START){START=Date.now();lastAct=START;b.classList.add("run");tick();clearInterval(timerInt);timerInt=setInterval(tick,1000);}}
+function tick(){const b=document.getElementById("startbtn");const s=Math.floor((Date.now()-START)/1000);
+  b.textContent="⏱ "+Math.floor(s/60)+":"+String(s%60).padStart(2,"0");}
+function markActivity(){lastAct=Date.now();
+  if(!START){START=lastAct;const b=document.getElementById("startbtn");b.classList.add("run");tick();clearInterval(timerInt);timerInt=setInterval(tick,1000);}}
+function idleCheck(){if(START&&!FINISHED&&lastAct&&(Date.now()-lastAct>IDLE_MS))finishWorkout(true);}
+
+let restT=null,restLeft=0;
+function parseRest(r){const m=(r||"").match(/([\d.]+)\s*мин/);return m?Math.round(parseFloat(m[1])*60):0;}
+function startRest(r){const s=parseRest(r);if(!s)return;restLeft=s;showRest();clearInterval(restT);
+  restT=setInterval(()=>{restLeft--;showRest();if(restLeft<=0)restSkip();},1000);}
+function showRest(){document.getElementById("restbar").classList.add("show");
+  const m=Math.floor(restLeft/60),s=restLeft%60;document.getElementById("rest-tm").textContent=m+":"+String(s).padStart(2,"0");}
+function restAdd(n){restLeft+=n;showRest();}
+function restSkip(){clearInterval(restT);document.getElementById("restbar").classList.remove("show");}
+
+function openVideo(id,start){document.getElementById("videoFrame").src="https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0&playsinline=1"+(start?"&start="+start:"");
+  document.getElementById("videoModal").classList.add("show");}
+function closeVideo(){document.getElementById("videoFrame").src="";document.getElementById("videoModal").classList.remove("show");}
+function openDoc(id){window.open(DOC+id,"_blank","noopener");}
+
+const SYNC_URL="", SYNC_TOKEN="kmg-sergey-7f3a";
+function syncToSheet(prog,rows){ if(!SYNC_URL||!rows||!rows.length) return;
+  try{fetch(SYNC_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({token:SYNC_TOKEN,prog:prog,rows:rows})});}catch(e){} }
+const MUSIC_URL="https://www.youtube.com/playlist?list=PLqGx0GBMpnp_dJ05nONvRwnDDLFUuYSGE";
+function openMusic(){ if(MUSIC_URL){window.open(MUSIC_URL,"_blank","noopener");} else {alert("Плейлист ещё не подключён. Пришли ссылку на плейлист — впишу, и кнопка будет открывать твою музыку.");} }
+function collectSets(){let totalVol=0;const collected={};
+  document.querySelectorAll("#warmbody .ex, #exlist .ex").forEach(exEl=>{const key=exEl.dataset.key,sets=[];
+    exEl.querySelectorAll("tbody tr").forEach(tr=>{const kgi=tr.querySelector(".kg");const kg=kgi?kgi.value.trim():"";const reps=tr.querySelector(".rp").value.trim();
+      if(kg||reps){sets.push({kg,reps});totalVol+=(parseFloat(kg)||0)*(parseInt(reps)||0);}});
+    if(sets.length)collected[key]=sets;});
+  return {collected,totalVol};}
+function finishWorkout(auto){
+  if(FINISHED)return;
+  const {collected,totalVol}=collectSets();
+  if(!Object.keys(collected).length){ if(auto){FINISHED=true;clearInterval(idleInt);clearInterval(timerInt);return;} alert("Нет введённых данных."); return; }
+  const s=store();Object.assign(s.last,collected);
+  const end=auto?(lastAct||Date.now()):Date.now();
+  const rec={ts:end,wid:wId(CUR),prog:CURTAB,date:new Date().toLocaleDateString("ru-RU"),title:CUR.name,tag:CUR.tag,volume:totalVol};
+  if(START){rec.start=new Date(START).toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
+    rec.end=new Date(end).toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});rec.durMin=Math.round((end-START)/60000);}
+  const pa=document.getElementById("pain-a"),pb=document.getElementById("pain-b"),bw=document.getElementById("bw");
+  if(pa)rec.painBefore=pa.value;if(pb)rec.painAfter=pb.value;if(bw)rec.bw=bw.value;
+  s.sessions=s.sessions||[];s.sessions.push(rec);saveStore(s);
+  const tstr=rec.start||new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
+  const rows=[];
+  Object.keys(collected).forEach(function(key){const exName=key.split("::")[1];
+    collected[key].forEach(function(st,idx){const kg=st.kg||"",reps=st.reps||"",ton=(parseFloat(st.kg)||0)*(parseInt(st.reps)||0);
+      if(CURTAB==="reha") rows.push([rec.date,tstr,exName,idx+1,kg,reps,rec.painBefore||"",rec.painAfter||"",rec.bw||"",rec.durMin||""]);
+      else rows.push([rec.date,tstr,CUR.name,exName,idx+1,kg,reps,ton,rec.durMin||"",""]);});});
+  syncToSheet(CURTAB,rows);
+  FINISHED=true;restSkip();clearInterval(timerInt);clearInterval(idleInt);
+  if(!auto)alert("Завершено"+(rec.durMin?` · ${rec.durMin} мин`:"")+". В следующий раз подставлю «прошлый раз».");
+  showHome();
+}
+function leaveWorkout(){ if(START&&!FINISHED&&Object.keys(collectSets().collected).length){finishWorkout(true);} else {FINISHED=true;clearInterval(idleInt);clearInterval(timerInt);showHome();} }
+function showHome(){document.getElementById("workout").classList.add("hidden");
+  document.getElementById("savebar").classList.add("hidden");document.getElementById("home").classList.remove("hidden");
+  clearInterval(timerInt);clearInterval(idleInt);
+  if(CURTAB==="reha"){TAB="morn";["zal","reha","morn"].forEach(k=>document.getElementById("seg-"+k).classList.toggle("on",k==="morn"));}
+  renderStats(TAB);renderDays();window.scrollTo(0,0);}
+
+const QUOTES=[
+ {t:"Чемпионов делают не в залах. Чемпион рождается из того, что глубоко внутри: из желания, мечты, видения.",a:"Мохаммед Али"},
+ {t:"Я ненавидел каждую минуту тренировок. Но говорил себе: не сдавайся. Потерпи сейчас — и проживёшь остаток жизни чемпионом.",a:"Мохаммед Али"},
+ {t:"Не считай дни — сделай так, чтобы дни считались.",a:"Мохаммед Али"},
+ {t:"Невозможное — это всего лишь громкое слово, которым бросаются маленькие люди.",a:"Мохаммед Али"},
+ {t:"Я промахнулся больше 9000 раз, проиграл почти 300 игр. Терпел неудачи снова и снова. Именно поэтому я добиваюсь успеха.",a:"Майкл Джордан"},
+ {t:"Я могу принять поражение — все где-то проигрывают. Но я не могу принять того, что даже не попытался.",a:"Майкл Джордан"},
+ {t:"Кто-то хочет, чтобы это случилось. Кто-то мечтает об этом. А кто-то берёт и делает.",a:"Майкл Джордан"},
+ {t:"Границы, как и страхи, чаще всего лишь иллюзия.",a:"Майкл Джордан"},
+ {t:"Сила рождается не из побед. Твои трудности развивают силу. Пройти через испытания и не сдаться — это и есть сила.",a:"Арнольд Шварценеггер"},
+ {t:"У тебя могут быть результаты или отговорки. Но не то и другое сразу.",a:"Арнольд Шварценеггер"},
+ {t:"Разум — вот предел. Пока разум способен представить, что ты можешь это сделать, ты это сделаешь — если веришь на все сто.",a:"Арнольд Шварценеггер"},
+ {t:"Нельзя быть парализованным страхом неудачи, иначе никогда не выложишься. Ты продолжаешь, потому что веришь в себя и своё видение.",a:"Арнольд Шварценеггер"},
+ {t:"Знать — недостаточно, нужно применять. Хотеть — недостаточно, нужно делать.",a:"Брюс Ли"},
+ {t:"Я не боюсь того, кто отработал 10 000 ударов по разу. Я боюсь того, кто один удар отработал 10 000 раз.",a:"Брюс Ли"},
+ {t:"Не молись о лёгкой жизни — молись о силе выдержать трудную.",a:"Брюс Ли"},
+ {t:"Будь водой, друг мой.",a:"Брюс Ли"},
+ {t:"Успех — не случайность. Это труд, упорство, учёба, жертвы и, главное, любовь к тому, что делаешь.",a:"Пеле"},
+ {t:"Чем труднее далась победа, тем больше радость от неё.",a:"Пеле"},
+ {t:"Ради мечты нужно бороться. Жертвовать и много работать ради неё.",a:"Лионель Месси"},
+ {t:"Мне понадобилось 17 лет и 114 дней, чтобы стать «мгновенным» успехом.",a:"Лионель Месси"},
+ {t:"Талант без упорного труда — ничто.",a:"Криштиану Роналду"},
+ {t:"Упорный труд бьёт талант, когда талант не работает над собой.",a:"Усэйн Болт"},
+ {t:"Время, усилия, жертвы и пот. Чем ты заплатишь за свои цели?",a:"Усэйн Болт"},
+ {t:"У меня нет ничего общего с теми, кто винит других в своих неудачах. Великое рождается из труда и упорства. Без отговорок.",a:"Коби Брайант"},
+ {t:"Самое важное — вдохновлять людей быть великими в том, что они делают.",a:"Коби Брайант"},
+ {t:"Ветер гасит свечу — и раздувает огонь. Хочешь стать сильнее — стань огнём и жди ветра.",a:"Нассим Талеб"},
+ {t:"Три самые вредные зависимости — героин, углеводы и ежемесячная зарплата.",a:"Нассим Талеб"},
+ {t:"Боль плюс рефлексия равно прогресс.",a:"Рэй Далио"},
+ {t:"Мечты + реальность + решимость = успешная жизнь.",a:"Рэй Далио"},
+ {t:"Кто живёт по хрустальному шару, обречён есть битое стекло.",a:"Рэй Далио"},
+ {t:"Из трёх карт бери интеллект, драйв и, главное, эмоциональную самодисциплину.",a:"Наваль Равикант"},
+ {t:"Фокус — это сказать «нет» сотне других хороших идей.",a:"Стив Джобс"},
+ {t:"Половина того, что отличает успешных предпринимателей от неуспешных, — чистое упорство.",a:"Стив Джобс"},
+ {t:"Оставайся голодным. Оставайся безрассудным.",a:"Стив Джобс"},
+ {t:"По-настоящему успешные люди говорят «нет» почти всему.",a:"Уоррен Баффетт"},
+ {t:"Кто-то сегодня сидит в тени, потому что кто-то давно посадил дерево.",a:"Уоррен Баффетт"},
+ {t:"Упорство очень важно. Не сдавайся, пока тебя не заставят сдаться.",a:"Илон Маск"},
+ {t:"Мы готовы быть непонятыми долгое время.",a:"Джефф Безос"},
+ {t:"В бизнесе нужно не бояться каждый день выходить с открытым забралом и иметь шанс потерять всё. Начал бояться потерять всё — значит, воли уже нет.",a:"Сергей Галицкий"},
+ {t:"Я не понимаю кайфа в бизнесе, где не можешь победить конкурента своим интеллектом.",a:"Сергей Галицкий"},
+ {t:"Надо найти себе дело, чтобы занять промежуток между рождением и смертью.",a:"Сергей Галицкий"},
+ {t:"Предприниматели — особая порода. Всего два-четыре процента людей носят в себе предпринимательский потенциал.",a:"Сергей Галицкий"},
+ {t:"В гробу карманов нет. Ты заработал в этом обществе — и должен ему отдавать.",a:"Сергей Галицкий"},
+ {t:"Я родился бизнесменом. Каждый должен научиться соответствовать своему ремеслу.",a:"Сергей Галицкий"},
+ {t:"Неважно, как медленно ты идёшь, — важно, что не останавливаешься.",a:"Конфуций"},
+ {t:"Кто гонится за двумя зайцами, не поймает ни одного.",a:"Конфуций"},
+ {t:"У каждого две жизни; вторая начинается, когда ты понимаешь, что жизнь одна.",a:"Конфуций"},
+ {t:"Мы страдаем чаще в воображении, чем в реальности.",a:"Сенека"},
+ {t:"Ты властен над своим разумом, а не над внешними событиями. Осознай это — и обретёшь силу.",a:"Марк Аврелий"},
+ {t:"Важно не то, что с тобой происходит, а то, как ты на это реагируешь.",a:"Эпиктет"}
+];
+(function(){const d=new Date();
+  const months=["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"];
+  document.getElementById("datebadge").textContent=d.getDate()+" "+months[d.getMonth()]+" "+d.getFullYear();
+  const q=QUOTES[Math.floor(Math.random()*QUOTES.length)];
+  document.getElementById("q-tx").textContent="«"+q.t+"»";
+  document.getElementById("q-auth").textContent="— "+q.a;
+  renderStats("morn");renderDays();})();
+</script>
+</body>
+</html>
