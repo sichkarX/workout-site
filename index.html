@@ -155,6 +155,11 @@
   .exvol{font-size:11.5px; color:var(--tx3); margin-top:10px; text-align:right}
 
   .savebar{margin:20px 0 8px; padding:0}
+  .notewrap{margin:22px 0 4px}
+  .notelbl{display:block; font-size:12px; color:var(--tx3); margin:0 0 7px 2px; letter-spacing:.02em}
+  .wnote{width:100%; box-sizing:border-box; background:#141414; border:1px solid #262626; border-radius:12px; color:var(--tx); font-family:inherit; font-size:15px; padding:12px 14px; resize:none; line-height:1.4}
+  .wnote:focus{outline:none; border-color:#3a3a3a}
+  .wnote::placeholder{color:#555}
   .savebtn{width:100%; background:#fff; color:#000; border:none; border-radius:14px; padding:16px; font-size:16px; font-weight:800; font-family:inherit; cursor:pointer}
   .rest{position:fixed; left:50%; transform:translateX(-50%); bottom:96px; z-index:20; background:#1c1c22;
     border:1px solid rgba(48,209,88,.4); border-radius:14px; padding:10px 16px; display:none; align-items:center; gap:14px; box-shadow:0 8px 30px rgba(0,0,0,.6),0 0 20px rgba(48,209,88,.12)}
@@ -194,7 +199,7 @@
     <div class="stats" id="tabstats"></div>
     <div id="cap" class="cap"></div>
     <div id="days"></div>
-    <div class="brandfoot"><div class="verline">Тренировки · v1.1 · релиз 16 июля 2026</div></div>
+    <div class="brandfoot"><div class="verline">Тренировки · v1.2 · релиз 16 июля 2026</div></div>
   </section>
 
   <section id="workout" class="hidden">
@@ -211,6 +216,7 @@
     <div id="painwrap"></div>
     <div id="warmwrap"></div>
     <div id="exlist"></div>
+    <div class="notewrap"><label class="notelbl">Заметка (необязательно)</label><textarea id="wnote" class="wnote" rows="2" placeholder="Как прошло: зал забит, спина ок, устал, пришёл поздно…"></textarea></div>
     <div class="foot">Тренировка завершится сама, если ничего не вводить ~15 минут (время конца — по последнему вводу). Кнопка ниже — если хочешь закрыть сразу.</div>
     <div class="savebar" id="savebar"><button class="savebtn" onclick="finishWorkout(false)">Завершить тренировку</button></div>
   </section>
@@ -398,6 +404,7 @@ function openW(tab,i){
   clearInterval(timerInt); clearInterval(idleInt); idleInt=setInterval(idleCheck,20000);
   const s=store();
   const sb=document.getElementById("startbtn"); sb.className="startbtn"; sb.textContent="▶ Начать";
+  const wn=document.getElementById("wnote"); if(wn)wn.value="";
   document.getElementById("whead").className="whead "+(tab==="reha"?"plain":w.accent);
   const subs = tab==="zal"?"Сплит 4 дня · до 28 декабря 2026":tab==="reha"?"Комплекс по методике клиники Бубновского. Желательно делать 3 раза в неделю":"Каждое утро";
   document.getElementById("whead").innerHTML=`<div class="tag">${w.tag}</div>`+(tab==="reha"?"":`<div class="t">${w.name}</div>`)+`<div class="s">${subs}</div>`;
@@ -521,11 +528,13 @@ function finishWorkout(auto){
   if(pa)rec.painBefore=pa.value;if(pb)rec.painAfter=pb.value;if(bw)rec.bw=bw.value;
   s.sessions=s.sessions||[];s.sessions.push(rec);saveStore(s);
   const tstr=rec.start||new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
+  const estr=rec.end||new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
+  const wn=document.getElementById("wnote"); const note=wn?wn.value.trim():""; rec.note=note;
   const rows=[];
   Object.keys(collected).forEach(function(key){const exName=key.split("::")[1];
     collected[key].forEach(function(st,idx){const kg=st.kg||"",reps=st.reps||"",ton=(parseFloat(st.kg)||0)*(parseInt(st.reps)||0);
-      if(CURTAB==="reha") rows.push([rec.date,tstr,exName,idx+1,kg,reps,rec.painBefore||"",rec.painAfter||"",rec.bw||"",rec.durMin||""]);
-      else rows.push([rec.date,tstr,CUR.name,exName,idx+1,kg,reps,ton,rec.durMin||"",""]);});});
+      if(CURTAB==="reha") rows.push([rec.date,tstr,exName,idx+1,kg,reps,rec.painBefore||"",rec.painAfter||"",rec.bw||"",rec.durMin||"",note,estr]);
+      else rows.push([rec.date,tstr,CUR.name,exName,idx+1,kg,reps,ton,rec.durMin||"",note,estr]);});});
   syncToSheet(CURTAB,rows);
   FINISHED=true;restSkip();clearInterval(timerInt);clearInterval(idleInt);
   if(!auto)alert("Завершено"+(rec.durMin?` · ${rec.durMin} мин`:"")+". В следующий раз подставлю «прошлый раз».");
