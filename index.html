@@ -71,6 +71,14 @@
   .dcell.on .dic{color:var(--green)}
   .dic svg{width:16px; height:16px}
   .hmeta{display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:var(--tx2)}
+  .hmtop{align-items:flex-start; gap:10px}
+  .hmtop .hstatus{flex:1; min-width:0}
+  .hmtop .streak{flex:0 0 auto}
+  .mgoal{margin-top:13px}
+  .mgoal-l{display:flex; justify-content:space-between; font-size:12px; color:var(--tx2); margin-bottom:7px}
+  .mgoal-l b{color:var(--tx); font-weight:800}
+  .mbar{height:6px; border-radius:4px; background:#26262c; overflow:hidden}
+  .mfill{height:100%; border-radius:4px; background:var(--green); transition:width .3s}
   .streak{display:inline-flex; align-items:center; gap:5px; font-weight:700; color:var(--tx3)}
   .streak.on{color:var(--amber); background:rgba(255,159,10,.15); border:1px solid rgba(255,159,10,.34); padding:5px 11px; border-radius:20px}
   .streak svg{width:16px; height:16px}
@@ -148,6 +156,19 @@
   .ex.warm{background:#101012; border-color:#232327}
   .exhd{display:flex; justify-content:space-between; align-items:flex-start; gap:10px}
   .ex .name{font-size:15px; font-weight:700; letter-spacing:-.01em}
+  .exact{display:flex; align-items:center; gap:12px; flex:0 0 auto}
+  .cbtn{background:none; border:none; padding:2px; color:var(--tx3); cursor:pointer; position:relative; display:inline-flex; line-height:0}
+  .cbtn:active{color:var(--tx2)}
+  .cdot{display:none; position:absolute; top:0; right:0; width:8px; height:8px; border-radius:50%; background:var(--green); border:1.5px solid var(--card)}
+  .ex.hasnote .cbtn{color:#8f8fb0}
+  .ex.hasnote .cdot{display:block}
+  .exnote{display:flex; gap:8px; margin:10px 0 2px}
+  .exnote.hidden{display:none}
+  .exnote-ta{flex:1; box-sizing:border-box; background:#141414; border:1px solid #333; border-radius:11px; color:var(--tx); font-family:inherit; font-size:16px; padding:10px 12px; resize:none; line-height:1.35}
+  .exnote-ta:focus{outline:none; border-color:#3a3a3a}
+  .exnote-ta::placeholder{color:#555}
+  .exnote-ok{flex:0 0 auto; background:rgba(255,255,255,.07); border:1px solid var(--line); color:var(--tx); border-radius:11px; padding:0 16px; font-family:inherit; font-size:14px; font-weight:700; cursor:pointer}
+  .exnote-ok:active{background:var(--green); color:#052; border-color:var(--green)}
   .ex .plan{font-size:12px; color:var(--tx2); margin-top:3px}
   .ex .note{font-size:12px; color:#e0c98a; margin-top:4px}
   .swap{display:inline-block; font-size:11px; color:var(--amber); background:rgba(255,159,10,.13);
@@ -230,10 +251,10 @@
       <button id="seg-zal" onclick="setTab('zal')">Зал</button>
       <button id="seg-reha" onclick="setTab('reha')">ЛФК</button>
     </div>
-    <div class="stats" id="tabstats"></div>
+    <div id="tabstats"></div>
     <div id="cap" class="cap"></div>
     <div id="days"></div>
-    <div class="brandfoot"><div class="verline">Тренировки · v1.3.4 · релиз 17 июля 2026</div></div>
+    <div class="brandfoot"><div class="verline">Тренировки · v1.4 · релиз 17 июля 2026</div></div>
   </section>
 
   <section id="workout" class="hidden">
@@ -354,6 +375,37 @@ const STRETCH=[
  {sym:"🧍",ic:'<svg viewBox="0 0 24 24"><circle cx="10.5" cy="4.8" r="2.4" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 7.4v5.6"/><path d="M7.8 9.6h5.4"/><path d="M10.5 13 8.6 20"/><path d="M10.5 13l1.9 7"/></g><path d="M16.5 3.4v17.2" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.5 2.5" opacity="0.5" fill="none"/></svg>',name:"Комплекс для здоровой осанки",sub:"осанка",vid:"vb5KPk3P1Cg"}
 ];
 const FLAME_SVG='<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2.5c2.6 2.8 4.2 4.8 4.2 8.3a4.2 4.2 0 0 1-8.4 0c0-1.6.8-2.9 1.9-3.9-.1 1.4.6 2.1 1.6 2.3-1.1-2-.3-4.4.7-6.8z"/></svg>';
+const DUMBBELL_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6"/><path d="M7 7.5v9"/><path d="M17 7.5v9"/><path d="M20 9v6"/><path d="M7 12h10"/></svg>';
+const SPINE_SVG='<svg viewBox="0 0 24 24" fill="currentColor"><rect x="8" y="3.2" width="8" height="3" rx="1.5"/><rect x="8" y="7.2" width="8" height="3" rx="1.5"/><rect x="8" y="11.2" width="8" height="3" rx="1.5"/><rect x="8" y="15.2" width="8" height="3" rx="1.5"/><rect x="8" y="19.2" width="8" height="2.4" rx="1.2"/></svg>';
+function plurWeek(n){const a=Math.abs(n)%100,b=n%10; if(a>10&&a<20)return"недель"; if(b>1&&b<5)return"недели"; if(b===1)return"неделя"; return"недель";}
+function weekStreak(f,target){
+  const wk={}, mkOf=d=>d.getFullYear()+"-"+d.getMonth()+"-"+d.getDate();
+  f.forEach(x=>{const d=new Date(x.ts); d.setHours(0,0,0,0); const dow=(d.getDay()+6)%7; const m=new Date(d); m.setDate(d.getDate()-dow); const mk=mkOf(m); (wk[mk]=wk[mk]||new Set()).add(dayKey(x.ts));});
+  const cur=new Date(); cur.setHours(0,0,0,0); const dow=(cur.getDay()+6)%7; const m=new Date(cur); m.setDate(cur.getDate()-dow);
+  let streak=0;
+  if(!(wk[mkOf(m)]&&wk[mkOf(m)].size>=target)) m.setDate(m.getDate()-7);
+  while(wk[mkOf(m)]&&wk[mkOf(m)].size>=target){streak++; m.setDate(m.getDate()-7);}
+  return streak;
+}
+function habitCard(tab,sess){
+  const ic=tab==="zal"?DUMBBELL_SVG:SPINE_SVG, label=tab==="zal"?"зал":"ЛФК", target=3;
+  const f=sess.filter(x=>classifyProg(x)===tab), setDays=new Set(f.map(x=>dayKey(x.ts)));
+  const now=new Date(), todayK=dayKey(now.getTime());
+  const dow=(now.getDay()+6)%7, monday=new Date(now); monday.setDate(now.getDate()-dow); monday.setHours(0,0,0,0);
+  const L=["Пн","Вт","Ср","Чт","Пт","Сб","Вс"];
+  let doneWeek=0,dots="";
+  for(let i=0;i<7;i++){const dd=new Date(monday); dd.setDate(monday.getDate()+i); const k=dayKey(dd.getTime());
+    const done=setDays.has(k); if(done)doneWeek++;
+    dots+=`<div class="dcell ${done?'on':''} ${k===todayK?'today':''}"><div class="dcirc">${done?`<span class="dic">${ic}</span>`:""}</div><span class="dlbl">${L[i]}</span></div>`;}
+  const doneToday=setDays.has(todayK);
+  const hit=doneWeek>=target;
+  const nowD=new Date(), ym=nowD.getFullYear()+"-"+nowD.getMonth();
+  const monthCount=new Set(f.filter(x=>{const d=new Date(x.ts);return d.getFullYear()+"-"+d.getMonth()===ym;}).map(x=>dayKey(x.ts))).size;
+  const goal=12, pct=Math.min(100,Math.round(monthCount/goal*100));
+  return `<div class="habit">
+    <div class="hdots" style="margin:2px 0 6px">${dots}</div>
+    <div class="mgoal"><div class="mgoal-l"><span>В этом месяце</span><span><b>${monthCount}</b> из ${goal}</span></div><div class="mbar"><div class="mfill" style="width:${pct}%"></div></div></div></div>`;
+}
 
 const SK="wlog_v1";
 function store(){try{return JSON.parse(localStorage.getItem(SK))||{last:{},sessions:[]}}catch(e){return{last:{},sessions:[]}}}
@@ -404,10 +456,13 @@ function renderStretch(){
   const todaySet=new Set(morn.filter(x=>dayKey(x.ts)===todayK).map(x=>x.sidx));
   const todayDone=todaySet.size>0;
   document.getElementById("cap").textContent="";
+  const ymNow=now.getFullYear()+"-"+now.getMonth();
+  const monthCount=new Set(morn.filter(x=>{const d=new Date(x.ts);return d.getFullYear()+"-"+d.getMonth()===ymNow;}).map(x=>dayKey(x.ts))).size;
+  const sgoal=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  const spct=Math.min(100,Math.round(monthCount/sgoal*100));
   const habit=`<div class="habit">
-    <div class="hstatus"><span class="dotbig ${todayDone?'on':''}"></span>${todayDone?"Сегодня размялся — красава":"Сегодня ещё не размялся"}</div>
-    <div class="hdots">${dots}</div>
-    <div class="hmeta"><span>За неделю: <b>${doneWeek}</b> из 7</span><span class="streak ${streak>0?'on':''}">${FLAME_SVG}${streak>0?`<b class="snum">${streak}</b> ${plurDay(streak)}`:"начни серию"}</span></div></div>`;
+    <div class="hdots" style="margin:2px 0 6px">${dots}</div>
+    <div class="mgoal"><div class="mgoal-l"><span>В этом месяце</span><span><b>${monthCount}</b> из ${sgoal}</span></div><div class="mbar"><div class="mfill" style="width:${spct}%"></div></div></div></div>`;
   const cards=STRETCH.map((x,i)=>{const cd=todaySet.has(i); const ov=`openVideo('${x.vid}'${x.start?","+x.start:""})`; return `<div class="scard" id="sc${i}">
     <button class="sicon" onclick="${ov}">${x.ic}<span class="pbadge">▶</span></button>
     <div class="sinfo"><div class="st" onclick="${ov}">${x.name}</div><div class="ss">${x.sub}</div></div>
@@ -440,19 +495,10 @@ function saveStretchFb(i,ev){ if(ev&&ev.preventDefault)ev.preventDefault();
 function classifyProg(x){if(x.prog)return x.prog; if(x.tag==="Реабилитация")return "reha"; if(x.tag==="Утро")return "morn"; return "zal";}
 function renderStats(tab){
   tab=tab||TAB;
-  const s=store(),wk=Date.now()-7*864e5,sess=s.sessions||[];
-  const tile=(v,l)=>`<div class="stat"><div class="v">${v}</div><div class="l">${l}</div></div>`;
+  const s=store(),sess=s.sessions||[];
   const el=document.getElementById("tabstats");
   if(tab==="morn"){el.innerHTML="";return;}
-  const f=sess.filter(x=>classifyProg(x)===tab);
-  const week=f.filter(x=>x.ts>wk).length,total=f.length;
-  if(tab==="reha"){
-    const lp=[...f].reverse().find(x=>x.painAfter!==undefined&&x.painAfter!=="");
-    el.innerHTML=tile(week,"на этой неделе")+tile(total,"всего")+tile(lp?lp.painAfter:"—","боль спины, посл.");
-  } else {
-    const lv=[...f].reverse().find(x=>x.volume);
-    el.innerHTML=tile(week,"на этой неделе")+tile(total,"всего в зале")+tile(lv&&lv.volume?Math.round(lv.volume):0,"тоннаж, посл.");
-  }
+  el.innerHTML=habitCard(tab,sess);
 }
 
 let CUR=null,START=null,timerInt=null,lastAct=null,FINISHED=false,idleInt=null,CURTAB=null;
@@ -521,12 +567,16 @@ function exBlock(w,e,s,nokg){
       <td class="chk"><button class="done" onclick="toggleSet(this,'${e.rest}')">✓</button></td></tr>`;
   }
   const kgTh=nokg?"":`<th>Кг</th>`;
+  const cbtn=`<button class="cbtn" onclick="toggleNote(this)" aria-label="Заметка"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.6 8.6 0 0 1-3.9-.9L3 21l1.9-5.6A8.4 8.4 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg><span class="cdot"></span></button>`;
   return `<div class="ex ${nokg?'warm':''}" data-key="${key}" data-nokg="${nokg?1:0}" data-rest="${e.rest}">
-    <div class="exhd"><div><div class="name">${e.name}</div><div class="plan">План ${e.sets}×${e.reps}${e.rest!=="—"?" · отдых "+e.rest:""}</div>${swap}</div>${tech}</div>
+    <div class="exhd"><div><div class="name">${e.name}</div><div class="plan">План ${e.sets}×${e.reps}${e.rest!=="—"?" · отдых "+e.rest:""}</div>${swap}</div><div class="exact">${cbtn}${tech}</div></div>
     ${hasCues?cuesHTML(e):""}
+    <div class="exnote hidden"><textarea class="exnote-ta" rows="2" placeholder="Пометка к упражнению…"></textarea><button class="exnote-ok" onclick="saveNote(this)">ОК</button></div>
     <table class="sets"><thead><tr><th>№</th><th class="l">Прошлый</th>${kgTh}<th>Повт.</th><th></th></tr></thead><tbody>${rows}</tbody></table>
     <div class="exvol"></div></div>`;
 }
+function toggleNote(btn){const ex=btn.closest(".ex"); const n=ex.querySelector(".exnote"); const shown=!n.classList.toggle("hidden"); if(shown){const ta=n.querySelector(".exnote-ta"); if(ta)ta.focus();} markActivity();}
+function saveNote(btn){const ex=btn.closest(".ex"); const ta=ex.querySelector(".exnote-ta"); ex.classList.toggle("hasnote", !!(ta&&ta.value.trim())); if(ta)ta.blur(); ex.querySelector(".exnote").classList.add("hidden"); markActivity();}
 function toggleCues(btn){const p=btn.closest(".ex").querySelector(".cues");p.classList.toggle("hidden");}
 function exVol(exEl){if(exEl.dataset.nokg==="1")return;let v=0;
   exEl.querySelectorAll("tbody tr").forEach(tr=>{const kg=tr.querySelector(".kg");v+=(kg?parseFloat(kg.value)||0:0)*(parseInt(tr.querySelector(".rp").value)||0);});
@@ -548,14 +598,18 @@ function markActivity(){lastAct=Date.now();
   if(!START){START=lastAct;const b=document.getElementById("startbtn");b.classList.add("run");tick();clearInterval(timerInt);timerInt=setInterval(tick,1000);}}
 function idleCheck(){if(START&&!FINISHED&&lastAct&&(Date.now()-lastAct>IDLE_MS))finishWorkout(true);}
 
-let restT=null,restLeft=0;
+let restT=null,restEnd=0;
 function parseRest(r){const m=(r||"").match(/([\d.]+)\s*мин/);return m?Math.round(parseFloat(m[1])*60):0;}
-function startRest(r){const s=parseRest(r);if(!s)return;restLeft=s;showRest();clearInterval(restT);
-  restT=setInterval(()=>{restLeft--;showRest();if(restLeft<=0)restSkip();},1000);}
+function restRemain(){return Math.max(0,Math.round((restEnd-Date.now())/1000));}
+function startRest(r){const s=parseRest(r);if(!s)return;restEnd=Date.now()+s*1000;showRest();clearInterval(restT);
+  restT=setInterval(function(){if(restRemain()<=0)restSkip();else showRest();},250);}
 function showRest(){document.getElementById("restbar").classList.add("show");
-  const m=Math.floor(restLeft/60),s=restLeft%60;document.getElementById("rest-tm").textContent=m+":"+String(s).padStart(2,"0");}
-function restAdd(n){restLeft+=n;showRest();}
+  const t=restRemain(),m=Math.floor(t/60),s=t%60;document.getElementById("rest-tm").textContent=m+":"+String(s).padStart(2,"0");}
+function restAdd(n){if(restEnd<Date.now())restEnd=Date.now();restEnd+=n*1000;showRest();}
 function restSkip(){clearInterval(restT);document.getElementById("restbar").classList.remove("show");}
+document.addEventListener("visibilitychange",function(){if(document.hidden)return;
+  if(document.getElementById("restbar").classList.contains("show")){if(restRemain()<=0)restSkip();else showRest();}
+  if(START&&!FINISHED)tick();});
 
 function openVideo(id,start){document.getElementById("videoFrame").src="https://www.youtube.com/embed/"+id+"?autoplay=1&rel=0&playsinline=1"+(start?"&start="+start:"");
   document.getElementById("videoModal").classList.add("show");}
@@ -590,11 +644,12 @@ function finishWorkout(auto){
   const tstr=rec.start||new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
   const estr=rec.end||new Date().toLocaleTimeString("ru-RU",{hour:"2-digit",minute:"2-digit"});
   const wn=document.getElementById("wnote"); const note=wn?wn.value.trim():""; rec.note=note;
+  const exnotes={}; document.querySelectorAll("#warmbody .ex, #exlist .ex").forEach(function(exEl){const ta=exEl.querySelector(".exnote-ta"); exnotes[exEl.dataset.key]=ta?ta.value.trim():"";});
   const rows=[];
-  Object.keys(collected).forEach(function(key){const exName=key.split("::")[1];
+  Object.keys(collected).forEach(function(key){const exName=key.split("::")[1]; const enote=exnotes[key]||note;
     collected[key].forEach(function(st,idx){const kg=st.kg||"",reps=st.reps||"",ton=(parseFloat(st.kg)||0)*(parseInt(st.reps)||0);
-      if(CURTAB==="reha") rows.push([rec.date,tstr,exName,idx+1,kg,reps,rec.painBefore||"",rec.painAfter||"",rec.bw||"",rec.durMin||"",note,estr]);
-      else rows.push([rec.date,tstr,CUR.name,exName,idx+1,kg,reps,ton,rec.durMin||"",note,estr]);});});
+      if(CURTAB==="reha") rows.push([rec.date,tstr,exName,idx+1,kg,reps,rec.painBefore||"",rec.painAfter||"",rec.bw||"",rec.durMin||"",enote,estr]);
+      else rows.push([rec.date,tstr,CUR.name,exName,idx+1,kg,reps,ton,rec.durMin||"",enote,estr]);});});
   syncToSheet(CURTAB,rows);
   FINISHED=true;restSkip();clearInterval(timerInt);clearInterval(idleInt);
   if(!auto)alert("Завершено"+(rec.durMin?` · ${rec.durMin} мин`:"")+". В следующий раз подставлю «прошлый раз».");
