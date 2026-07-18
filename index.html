@@ -254,7 +254,7 @@
     <div id="tabstats"></div>
     <div id="cap" class="cap"></div>
     <div id="days"></div>
-    <div class="brandfoot"><div class="verline">Тренировки · v1.4.2 · релиз 17 июля 2026</div></div>
+    <div class="brandfoot"><div class="verline">Тренировки · v1.4.3 · релиз 18 июля 2026</div></div>
   </section>
 
   <section id="workout" class="hidden">
@@ -369,12 +369,13 @@ const REHA=[
 ];
 const STRETCH=[
  {sym:"🤸",ic:'<svg viewBox="0 0 24 24"><circle cx="12" cy="4.8" r="2.7" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V13.8"/><path d="M12 9.4 6.7 6.7"/><path d="M12 9.4l5.3-2.7"/><path d="M12 13.8 8 20"/><path d="M12 13.8 16 20"/></g></svg>',name:"Растяжка всего тела",sub:"~15 мин · ноги и спина",vid:"O6Vm6vKFbvA"},
- {sym:"🌅",ic:'<svg viewBox="0 0 24 24"><path d="M7.4 18a4.6 4.6 0 0 1 9.2 0z" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M3.6 18h16.8"/><path d="M12 6.2V4.2"/><path d="M5.8 8.6 4.5 7.3"/><path d="M18.2 8.6l1.3-1.3"/></g></svg>',name:"Утренняя гимнастика для спины",sub:"~15 мин · спина",vid:"WbxkKxXSZe0"},
- {sym:"🔄",ic:'<svg viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2-4.9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.4 2.6l1.9 4.7-4.9-1.1z" fill="currentColor"/></svg>',name:"Растяжка на каждый день",sub:"~15 мин · позвоночник · neofit",vid:"D3Ysvoz7I2E",start:51},
- {sym:"🦴",ic:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="8" y="3.2" width="8" height="3" rx="1.5"/><rect x="8" y="7.2" width="8" height="3" rx="1.5"/><rect x="8" y="11.2" width="8" height="3" rx="1.5"/><rect x="8" y="15.2" width="8" height="3" rx="1.5"/><rect x="8" y="19.2" width="8" height="2.4" rx="1.2"/></svg>',name:"Зарядка для здоровой спины",sub:"спина · зарядка",vid:"HguGH_LP5Zc"},
- {sym:"🧍",ic:'<svg viewBox="0 0 24 24"><circle cx="10.5" cy="4.8" r="2.4" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 7.4v5.6"/><path d="M7.8 9.6h5.4"/><path d="M10.5 13 8.6 20"/><path d="M10.5 13l1.9 7"/></g><path d="M16.5 3.4v17.2" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.5 2.5" opacity="0.5" fill="none"/></svg>',name:"Комплекс для здоровой осанки",sub:"осанка",vid:"vb5KPk3P1Cg"}
+ {sym:"🌅",ic:'<svg viewBox="0 0 24 24"><path d="M7.4 18a4.6 4.6 0 0 1 9.2 0z" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M3.6 18h16.8"/><path d="M12 6.2V4.2"/><path d="M5.8 8.6 4.5 7.3"/><path d="M18.2 8.6l1.3-1.3"/></g></svg>',name:"Гимнастика для спины",sub:"~15 мин · спина утром",vid:"WbxkKxXSZe0"},
+ {sym:"🔄",ic:'<svg viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2-4.9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.4 2.6l1.9 4.7-4.9-1.1z" fill="currentColor"/></svg>',name:"Ежедневная растяжка",sub:"~15 мин · позвоночник",vid:"D3Ysvoz7I2E",start:51},
+ {sym:"🦴",ic:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="8" y="3.2" width="8" height="3" rx="1.5"/><rect x="8" y="7.2" width="8" height="3" rx="1.5"/><rect x="8" y="11.2" width="8" height="3" rx="1.5"/><rect x="8" y="15.2" width="8" height="3" rx="1.5"/><rect x="8" y="19.2" width="8" height="2.4" rx="1.2"/></svg>',name:"Зарядка для спины",sub:"~25 мин · спина",vid:"HguGH_LP5Zc"},
+ {sym:"🧍",ic:'<svg viewBox="0 0 24 24"><circle cx="10.5" cy="4.8" r="2.4" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 7.4v5.6"/><path d="M7.8 9.6h5.4"/><path d="M10.5 13 8.6 20"/><path d="M10.5 13l1.9 7"/></g><path d="M16.5 3.4v17.2" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2.5 2.5" opacity="0.5" fill="none"/></svg>',name:"Комплекс для осанки",sub:"~17 мин · осанка",vid:"vb5KPk3P1Cg"}
 ];
 const FLAME_SVG='<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2.5c2.6 2.8 4.2 4.8 4.2 8.3a4.2 4.2 0 0 1-8.4 0c0-1.6.8-2.9 1.9-3.9-.1 1.4.6 2.1 1.6 2.3-1.1-2-.3-4.4.7-6.8z"/></svg>';
+const STRETCH_ALIAS={"Утренняя гимнастика для спины":1,"Растяжка на каждый день":2,"Зарядка для здоровой спины":3,"Комплекс для здоровой осанки":4};
 const DUMBBELL_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6"/><path d="M7 7.5v9"/><path d="M17 7.5v9"/><path d="M20 9v6"/><path d="M7 12h10"/></svg>';
 const SPINE_SVG='<svg viewBox="0 0 24 24" fill="currentColor"><rect x="8" y="3.2" width="8" height="3" rx="1.5"/><rect x="8" y="7.2" width="8" height="3" rx="1.5"/><rect x="8" y="11.2" width="8" height="3" rx="1.5"/><rect x="8" y="15.2" width="8" height="3" rx="1.5"/><rect x="8" y="19.2" width="8" height="2.4" rx="1.2"/></svg>';
 function plurWeek(n){const a=Math.abs(n)%100,b=n%10; if(a>10&&a<20)return"недель"; if(b>1&&b<5)return"недели"; if(b===1)return"неделя"; return"недель";}
@@ -401,7 +402,10 @@ function habitCard(tab,sess){
   const hit=doneWeek>=target;
   const nowD=new Date(), ym=nowD.getFullYear()+"-"+nowD.getMonth();
   const monthCount=new Set(f.filter(x=>{const d=new Date(x.ts);return d.getFullYear()+"-"+d.getMonth()===ym;}).map(x=>dayKey(x.ts))).size;
-  const goal=12, pct=Math.min(100,Math.round(monthCount/goal*100));
+  const dim=new Date(nowD.getFullYear(),nowD.getMonth()+1,0).getDate();
+  const futureDays=(dim-nowD.getDate())+(setDays.has(todayK)?0:1);
+  const goal=Math.max(1,monthCount+Math.round(3*futureDays/7));
+  const pct=Math.min(100,Math.round(monthCount/goal*100));
   return `<div class="habit">
     <div class="hdots" style="margin:2px 0 6px">${dots}</div>
     <div class="mgoal"><div class="mgoal-l"><span>В этом месяце</span><span><b>${monthCount}</b> из ${goal}</span></div><div class="mbar"><div class="mfill" style="width:${pct}%"></div></div></div></div>`;
@@ -458,7 +462,9 @@ function renderStretch(){
   document.getElementById("cap").textContent="";
   const ymNow=now.getFullYear()+"-"+now.getMonth();
   const monthCount=new Set(morn.filter(x=>{const d=new Date(x.ts);return d.getFullYear()+"-"+d.getMonth()===ymNow;}).map(x=>dayKey(x.ts))).size;
-  const sgoal=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  const dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  const futureDays=(dim-now.getDate())+(todayDone?0:1);
+  const sgoal=Math.max(1,monthCount+futureDays);
   const spct=Math.min(100,Math.round(monthCount/sgoal*100));
   const habit=`<div class="habit">
     <div class="hdots" style="margin:2px 0 6px">${dots}</div>
@@ -716,14 +722,15 @@ const QUOTES=[
 ];
 function parseD(v){if(!v)return null;var m=String(v).match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/);if(m)return new Date(+m[3],+m[2]-1,+m[1],12,0,0);return null;}
 function importSheet(d){try{
-  const s=store(); s.sessions=s.sessions||[];
-  const have=new Set(s.sessions.map(x=>x.prog+"|"+dayKey(x.ts)+"|"+(x.prog==="morn"?x.sidx:"")));
-  const add=[];
-  (d["Растяжка"]||[]).slice(1).forEach(function(r){const dt=parseD(r[0]);if(!dt)return;const name=r[2];const sidx=STRETCH.findIndex(function(x){return x.name===name;});if(sidx<0)return;const ts=dt.getTime();const k="morn|"+dayKey(ts)+"|"+sidx;if(!have.has(k)){have.add(k);add.push({ts:ts,prog:"morn",sidx:sidx,title:name,date:dt.toLocaleDateString("ru-RU")});}});
-  const grp=function(tab,arr,volCol){const byday={};(arr||[]).slice(1).forEach(function(r){const dt=parseD(r[0]);if(!dt)return;const k=dayKey(dt.getTime());if(!byday[k])byday[k]={ts:dt.getTime(),vol:0};byday[k].vol+=parseFloat(r[volCol])||0;});Object.keys(byday).forEach(function(k){const key=tab+"|"+k+"|";if(!have.has(key)){have.add(key);add.push({ts:byday[k].ts,prog:tab,title:"",date:new Date(byday[k].ts).toLocaleDateString("ru-RU"),volume:byday[k].vol});}});};
-  grp("zal",d["Зал"],7);
-  grp("reha",d["ЛФК"],99);
-  if(add.length){s.sessions=s.sessions.concat(add);saveStore(s);renderStats(TAB);if(TAB==="morn"||TAB==="zal")renderDays();}
+  const s=store(); const tk=dayKey(Date.now());
+  const keyOf=x=>x.prog+"|"+dayKey(x.ts)+"|"+(x.prog==="morn"?x.sidx:"");
+  const built=[], seen=new Set();
+  const add=o=>{const k=keyOf(o); if(!seen.has(k)){seen.add(k); built.push(o);}};
+  (d["Растяжка"]||[]).slice(1).forEach(function(r){const dt=parseD(r[0]);if(!dt)return;const name=r[2];var sidx=STRETCH.findIndex(function(x){return x.name===name;});if(sidx<0&&STRETCH_ALIAS.hasOwnProperty(name))sidx=STRETCH_ALIAS[name];if(sidx<0)return;add({ts:dt.getTime(),prog:"morn",sidx:sidx,title:name,date:dt.toLocaleDateString("ru-RU")});});
+  const grp=function(tab,arr,volCol){const byday={};(arr||[]).slice(1).forEach(function(r){const dt=parseD(r[0]);if(!dt)return;const k=dayKey(dt.getTime());if(!byday[k])byday[k]={ts:dt.getTime(),vol:0};byday[k].vol+=parseFloat(r[volCol])||0;});Object.keys(byday).forEach(function(k){add({ts:byday[k].ts,prog:tab,title:"",date:new Date(byday[k].ts).toLocaleDateString("ru-RU"),volume:byday[k].vol});});};
+  grp("zal",d["Зал"],7); grp("reha",d["ЛФК"],99);
+  (s.sessions||[]).forEach(function(x){ if(dayKey(x.ts)===tk) add(x); });
+  s.sessions=built; saveStore(s); renderStats(TAB); if(TAB==="morn"||TAB==="zal")renderDays();
 }catch(e){}}
 function loadHistory(){if(!SYNC_URL)return;try{window.__wlogcb=function(d){importSheet(d);};var sc=document.createElement("script");sc.src=SYNC_URL+"?callback=__wlogcb&t="+Date.now();sc.onerror=function(){};document.body.appendChild(sc);}catch(e){}}
 (function(){const d=new Date();
