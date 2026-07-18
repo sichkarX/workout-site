@@ -254,7 +254,7 @@
     <div id="tabstats"></div>
     <div id="cap" class="cap"></div>
     <div id="days"></div>
-    <div class="brandfoot"><div class="verline">Тренировки · v1.4 · релиз 17 июля 2026</div></div>
+    <div class="brandfoot"><div class="verline">Тренировки · v1.4.1 · релиз 17 июля 2026</div></div>
   </section>
 
   <section id="workout" class="hidden">
@@ -513,7 +513,7 @@ function openW(tab,i){
   const subs = tab==="zal"?"Сплит 4 дня · до 28 декабря 2026":tab==="reha"?"Комплекс по методике клиники Бубновского. Желательно делать 3 раза в неделю":"Каждое утро";
   document.getElementById("whead").innerHTML=`<div class="tag">${w.tag}</div>`+(tab==="reha"?"":`<div class="t">${w.name}</div>`)+`<div class="s">${subs}</div>`;
   document.getElementById("wbanner").innerHTML = w.banner?`<div class="banner">${w.banner}</div>`:"";
-  document.getElementById("progwrap").innerHTML=progHTML(w,s);
+  document.getElementById("progwrap").innerHTML=tab==="reha"?habitCard("reha",s.sessions||[]):progHTML(w,s);
   document.getElementById("painwrap").innerHTML=w.pain
     ? `<div class="painrow"><div class="fld"><label>Боль ДО (0–10)</label><input id="pain-a" inputmode="numeric"></div><div class="fld"><label>Боль ПОСЛЕ</label><input id="pain-b" inputmode="numeric"></div><div class="fld"><label>Вес тела, кг</label><input id="bw" inputmode="decimal"></div></div>` : "";
   // warmup collapsed
@@ -575,8 +575,8 @@ function exBlock(w,e,s,nokg){
     <table class="sets"><thead><tr><th>№</th><th class="l">Прошлый</th>${kgTh}<th>Повт.</th><th></th></tr></thead><tbody>${rows}</tbody></table>
     <div class="exvol"></div></div>`;
 }
-function toggleNote(btn){const ex=btn.closest(".ex"); const n=ex.querySelector(".exnote"); const shown=!n.classList.toggle("hidden"); if(shown){const ta=n.querySelector(".exnote-ta"); if(ta)ta.focus();} markActivity();}
-function saveNote(btn){const ex=btn.closest(".ex"); const ta=ex.querySelector(".exnote-ta"); ex.classList.toggle("hasnote", !!(ta&&ta.value.trim())); if(ta)ta.blur(); ex.querySelector(".exnote").classList.add("hidden"); markActivity();}
+function toggleNote(btn){const ex=btn.closest(".ex"); const n=ex.querySelector(".exnote"); const shown=!n.classList.toggle("hidden"); if(shown){const ta=n.querySelector(".exnote-ta"); if(ta)ta.focus();}}
+function saveNote(btn){const ex=btn.closest(".ex"); const ta=ex.querySelector(".exnote-ta"); ex.classList.toggle("hasnote", !!(ta&&ta.value.trim())); if(ta)ta.blur(); ex.querySelector(".exnote").classList.add("hidden"); if(START)lastAct=Date.now();}
 function toggleCues(btn){const p=btn.closest(".ex").querySelector(".cues");p.classList.toggle("hidden");}
 function exVol(exEl){if(exEl.dataset.nokg==="1")return;let v=0;
   exEl.querySelectorAll("tbody tr").forEach(tr=>{const kg=tr.querySelector(".kg");v+=(kg?parseFloat(kg.value)||0:0)*(parseInt(tr.querySelector(".rp").value)||0);});
